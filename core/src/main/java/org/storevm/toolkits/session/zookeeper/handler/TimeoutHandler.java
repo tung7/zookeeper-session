@@ -9,9 +9,9 @@ import org.storevm.toolkits.session.metadata.SessionMetaData;
 import org.storevm.toolkits.utils.SerializationUtils;
 
 /**
- * ³¬Ê±´¦ÀíÆ÷
+ * è¶…æ—¶å¤„ç†å™¨
  * @author hzxiongwenwu.tan
- * @version $Id: TimeoutHandler.java, v 0.1 2012-4-9 ÉÏÎç09:44:31 hzxiongwenwu.tan Exp $
+ * @version $Id: TimeoutHandler.java, v 0.1 2012-4-9 ä¸Šåˆ09:44:31 hzxiongwenwu.tan Exp $
  */
 public class TimeoutHandler extends GetMetadataHandler {
 
@@ -29,30 +29,30 @@ public class TimeoutHandler extends GetMetadataHandler {
     public <T> T handle() throws Exception {
         if (zookeeper != null) {
             String path = GROUP_NAME + NODE_SEP + id;
-            //»ñÈ¡ÔªÊı¾İ
+            //è·å–å…ƒæ•°æ®
             SessionMetaData metadata = super.handle();
-            //Èç¹û²»´æÔÚ£¬ÔòÖ±½Ó·µ»Øtrue
+            //å¦‚æœä¸å­˜åœ¨ï¼Œåˆ™ç›´æ¥è¿”å›true
             if (metadata == null) {
                 return (T) Boolean.TRUE;
             }
-            //Èç¹û½ÚµãÊ§Ğ§£¬Ö±½Ó·µ»Ø
+            //å¦‚æœèŠ‚ç‚¹å¤±æ•ˆï¼Œç›´æ¥è¿”å›
             if (!metadata.getValidate()) {
                 return (T) Boolean.TRUE;
             } else {
-                //¼ì²é½ÚµãÊÇ·ñ³¬Ê±
-                Long now = System.currentTimeMillis(); //µ±Ç°Ê±¼ä
-                //¼ì²éÊÇ·ñ¹ıÆÚ
-                Long timeout = metadata.getLastAccessTm() + metadata.getMaxIdle(); //¿ÕÏĞÊ±¼ä
-                //Èç¹û¿ÕÏĞÊ±¼äĞ¡ÓÚµ±Ç°Ê±¼ä£¬Ôò±íÊ¾Session³¬Ê±
+                //æ£€æŸ¥èŠ‚ç‚¹æ˜¯å¦è¶…æ—¶
+                Long now = System.currentTimeMillis(); //å½“å‰æ—¶é—´
+                //æ£€æŸ¥æ˜¯å¦è¿‡æœŸ
+                Long timeout = metadata.getLastAccessTm() + metadata.getMaxIdle(); //ç©ºé—²æ—¶é—´
+                //å¦‚æœç©ºé—²æ—¶é—´å°äºå½“å‰æ—¶é—´ï¼Œåˆ™è¡¨ç¤ºSessionè¶…æ—¶
                 if (timeout < now) {
                     metadata.setValidate(false);
-                    //¸üĞÂ½ÚµãÊı¾İ
+                    //æ›´æ–°èŠ‚ç‚¹æ•°æ®
                     byte[] data = SerializationUtils.serialize(metadata);
                     zookeeper.setData(path, data, metadata.getVersion());
                 }
                 String timeoutStr = DateFormatUtils.format(timeout, "yyyy-MM-dd HH:mm");
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("session³¬Ê±¼ì²é:[" + timeoutStr + "]");
+                    LOGGER.info("sessionè¶…æ—¶æ£€æŸ¥:[" + timeoutStr + "]");
                 }
             }
         }

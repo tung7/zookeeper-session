@@ -21,14 +21,14 @@ import org.storevm.toolkits.session.zookeeper.handler.RemoveNodeHandler;
 import org.storevm.toolkits.session.zookeeper.handler.UpdateMetadataHandler;
 
 /**
- * JettyÈİÆ÷ÏÂµÄSession¹ÜÀíÆ÷
+ * Jettyå®¹å™¨ä¸‹çš„Sessionç®¡ç†å™¨
  * 
- * @author Ì¸ÏéÇì
- * @version $Id: JettyDistributedSessionManager.java, v 0.1 2010-12-29 ÏÂÎç09:48:13 Ì¸ÏéÇì Exp $
+ * @author è°ˆç¥¥åº†
+ * @version $Id: JettyDistributedSessionManager.java, v 0.1 2010-12-29 ä¸‹åˆ09:48:13 è°ˆç¥¥åº† Exp $
  */
 public class JettyDistributedSessionManager extends DefaultSessionManager {
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param config
      */
     public JettyDistributedSessionManager(ServletContext sc) {
@@ -36,48 +36,48 @@ public class JettyDistributedSessionManager extends DefaultSessionManager {
     }
 
     /**
-     * »ñÈ¡ÈİÆ÷ÖĞµÄsession
+     * è·å–å®¹å™¨ä¸­çš„session
      * 
      * @param id
      * @return
      */
     @Override
     public HttpSession getHttpSession(String id, HttpServletRequest request) {
-        //ÀàĞÍ¼ì²é
+        //ç±»å‹æ£€æŸ¥
         if (!(request instanceof Request)) {
-            LOGGER.warn("²»ÊÇJettyÈİÆ÷ÏÂµÄRequest¶ÔÏó");
+            LOGGER.warn("ä¸æ˜¯Jettyå®¹å™¨ä¸‹çš„Requestå¯¹è±¡");
             return null;
         }
-        //½«HttpServletRequest×ª»»³ÉJettyÈİÆ÷µÄRequestÀàĞÍ
+        //å°†HttpServletRequestè½¬æ¢æˆJettyå®¹å™¨çš„Requestç±»å‹
         Request req = (Request) request;
         HttpSession session = sessions.get(id);
-        //ZooKeeper·şÎñÆ÷ÉÏ²éÕÒÖ¸¶¨½ÚµãÊÇ·ñÓĞĞ§£¬²¢¸üĞÂ½ÚµãÔªÊı¾İ
+        //ZooKeeperæœåŠ¡å™¨ä¸ŠæŸ¥æ‰¾æŒ‡å®šèŠ‚ç‚¹æ˜¯å¦æœ‰æ•ˆï¼Œå¹¶æ›´æ–°èŠ‚ç‚¹å…ƒæ•°æ®
         Boolean valid = Boolean.FALSE;
         try {
             valid = client.execute(new UpdateMetadataHandler(id));
         } catch (Exception ex) {
-            LOGGER.error("¸üĞÂ½ÚµãÔªÊı¾İÊ±·¢ÉúÒì³££¬", ex);
+            LOGGER.error("æ›´æ–°èŠ‚ç‚¹å…ƒæ•°æ®æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
         }
-        //Èç¹ûÎªfalse£¬±íÊ¾·şÎñÆ÷ÉÏÎŞ¸ÃSession½Úµã£¬ĞèÒªÖØĞÂ´´½¨(·µ»Ønull)
+        //å¦‚æœä¸ºfalseï¼Œè¡¨ç¤ºæœåŠ¡å™¨ä¸Šæ— è¯¥SessionèŠ‚ç‚¹ï¼Œéœ€è¦é‡æ–°åˆ›å»º(è¿”å›null)
         if (!valid) {
-            //É¾³ı±¾µØµÄ¸±±¾
+            //åˆ é™¤æœ¬åœ°çš„å‰¯æœ¬
             if (session != null) {
                 session.invalidate();
             } else {
-                //É¾³ıZooKeeperÉÏ¹Â¶ùSession½Úµã
+                //åˆ é™¤ZooKeeperä¸Šå­¤å„¿SessionèŠ‚ç‚¹
                 try {
                     client.execute(new RemoveNodeHandler(id));
                 } catch (Exception ex) {
-                    LOGGER.error("É¾³ı½ÚµãÔªÊı¾İÊ±·¢ÉúÒì³££¬", ex);
+                    LOGGER.error("åˆ é™¤èŠ‚ç‚¹å…ƒæ•°æ®æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
                 }
             }
             return null;
         } else {
-            //Èç¹û´æÔÚ£¬ÔòÖ±½Ó·µ»Ø
+            //å¦‚æœå­˜åœ¨ï¼Œåˆ™ç›´æ¥è¿”å›
             if (session != null) {
                 return session;
             }
-            //·ñÔò´´½¨Ö¸¶¨IDµÄSession²¢·µ»Ø(ÓÃÓÚÍ¬²½·Ö²¼Ê½»·¾³ÖĞµÄÆäËû»úÆ÷ÉÏµÄSession±¾µØ¸±±¾)
+            //å¦åˆ™åˆ›å»ºæŒ‡å®šIDçš„Sessionå¹¶è¿”å›(ç”¨äºåŒæ­¥åˆ†å¸ƒå¼ç¯å¢ƒä¸­çš„å…¶ä»–æœºå™¨ä¸Šçš„Sessionæœ¬åœ°å‰¯æœ¬)
             session = new JettyDistributedSession((AbstractSessionManager) req.getSessionManager(),
                 System.currentTimeMillis(), id, this);
             addHttpSession(session);
@@ -86,24 +86,24 @@ public class JettyDistributedSessionManager extends DefaultSessionManager {
     }
 
     /**
-     * ´´½¨Ò»¸öĞÂµÄsession
+     * åˆ›å»ºä¸€ä¸ªæ–°çš„session
      * 
      * @param request
      * @return
      */
     @Override
     public HttpSession newHttpSession(HttpServletRequest request) {
-        //ÀàĞÍ¼ì²é
+        //ç±»å‹æ£€æŸ¥
         if (!(request instanceof Request)) {
-            LOGGER.warn("²»ÊÇJettyÈİÆ÷ÏÂµÄRequest¶ÔÏó");
+            LOGGER.warn("ä¸æ˜¯Jettyå®¹å™¨ä¸‹çš„Requestå¯¹è±¡");
             return null;
         }
-        //½«HttpServletRequest×ª»»³ÉJettyÈİÆ÷µÄRequestÀàĞÍ
+        //å°†HttpServletRequestè½¬æ¢æˆJettyå®¹å™¨çš„Requestç±»å‹
         Request req = (Request) request;
         Session session = new JettyDistributedSession(
             (AbstractSessionManager) req.getSessionManager(), request, this);
         String id = session.getId();
-        // Ğ´cookie
+        // å†™cookie
         Cookie cookie = CookieHelper.writeSessionIdToCookie(id, req, req.getConnection()
             .getResponse(), COOKIE_EXPIRY);
         if (cookie != null) {
@@ -112,16 +112,16 @@ public class JettyDistributedSessionManager extends DefaultSessionManager {
                             + cookie.getValue() + "]");
             }
         }
-        //ÔÚZooKeeper·şÎñÆ÷ÉÏ´´½¨session½Úµã£¬½ÚµãÃû³ÆÎªSession ID
-        //´´½¨ÔªÊı¾İ
+        //åœ¨ZooKeeperæœåŠ¡å™¨ä¸Šåˆ›å»ºsessionèŠ‚ç‚¹ï¼ŒèŠ‚ç‚¹åç§°ä¸ºSession ID
+        //åˆ›å»ºå…ƒæ•°æ®
         SessionMetaData metadata = new SessionMetaData();
         metadata.setId(id);
         long sessionTimeout = NumberUtils.toLong(config.getString(Configuration.SESSION_TIMEOUT)) * 60 * 1000;
-        metadata.setMaxIdle(sessionTimeout); //×ª»»³ÉºÁÃë
+        metadata.setMaxIdle(sessionTimeout); //è½¬æ¢æˆæ¯«ç§’
         try {
             client.execute(new CreateNodeHandler(id, metadata));
         } catch (Exception ex) {
-            LOGGER.error("´´½¨½ÚµãÊ±·¢ÉúÒì³££¬", ex);
+            LOGGER.error("åˆ›å»ºèŠ‚ç‚¹æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
         }
         addHttpSession(session);
         return session;

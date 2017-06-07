@@ -10,13 +10,13 @@ import org.storevm.toolkits.session.zookeeper.AbstractZookeeperHandler;
 import org.storevm.toolkits.utils.SerializationUtils;
 
 /**
- * ·µ»ØÔªÊı¾İµÄ´¦ÀíÆ÷ÊµÏÖ
+ * è¿”å›å…ƒæ•°æ®çš„å¤„ç†å™¨å®ç°
  * @author Administrator
- * @version $Id: GetMetadataHandler.java, v 0.1 2012-4-8 ÏÂÎç7:10:47 Administrator Exp $
+ * @version $Id: GetMetadataHandler.java, v 0.1 2012-4-8 ä¸‹åˆ7:10:47 Administrator Exp $
  */
 public class GetMetadataHandler extends AbstractZookeeperHandler {
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param nodeId
      */
     public GetMetadataHandler(String id) {
@@ -30,21 +30,21 @@ public class GetMetadataHandler extends AbstractZookeeperHandler {
     public <T> T handle() throws Exception {
         if (zookeeper != null) {
             String path = GROUP_NAME + NODE_SEP + id;
-            // ¼ì²é½ÚµãÊÇ·ñ´æÔÚ
+            // æ£€æŸ¥èŠ‚ç‚¹æ˜¯å¦å­˜åœ¨
             Stat stat = zookeeper.exists(path, false);
-            //statÎªnull±íÊ¾ÎŞ´Ë½Úµã
+            //statä¸ºnullè¡¨ç¤ºæ— æ­¤èŠ‚ç‚¹
             if (stat == null) {
                 return null;
             }
-            //»ñÈ¡½ÚµãÉÏµÄÊı¾İ
+            //è·å–èŠ‚ç‚¹ä¸Šçš„æ•°æ®
             byte[] data = zookeeper.getData(path, false, null);
             if (data != null) {
-                //·´ĞòÁĞ»¯
+                //ååºåˆ—åŒ–
                 Object obj = SerializationUtils.deserialize(data);
-                //×ª»»ÀàĞÍ
+                //è½¬æ¢ç±»å‹
                 if (obj instanceof SessionMetaData) {
                     SessionMetaData metadata = (SessionMetaData) obj;
-                    //ÉèÖÃµ±Ç°°æ±¾ºÅ
+                    //è®¾ç½®å½“å‰ç‰ˆæœ¬å·
                     metadata.setVersion(stat.getVersion());
                     return (T) metadata;
                 }

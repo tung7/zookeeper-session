@@ -14,13 +14,13 @@ import org.storevm.toolkits.session.zookeeper.AbstractZookeeperHandler;
 import org.storevm.toolkits.utils.SerializationUtils;
 
 /**
- * É¾³ı½ÚµãµÄ´¦ÀíÆ÷
+ * åˆ é™¤èŠ‚ç‚¹çš„å¤„ç†å™¨
  * @author hzxiongwenwu.tan
- * @version $Id: RemoveNodeHandler.java, v 0.1 2012-4-9 ÉÏÎç10:44:39 hzxiongwenwu.tan Exp $
+ * @version $Id: RemoveNodeHandler.java, v 0.1 2012-4-9 ä¸Šåˆ10:44:39 hzxiongwenwu.tan Exp $
  */
 public class RemoveNodeHandler extends AbstractZookeeperHandler {
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param id
      */
     public RemoveNodeHandler(String id) {
@@ -35,29 +35,29 @@ public class RemoveNodeHandler extends AbstractZookeeperHandler {
         Map<String, Serializable> datas = new HashMap<String, Serializable>();
         if (zookeeper != null) {
             String path = GROUP_NAME + NODE_SEP + id;
-            // ¼ì²é½ÚµãÊÇ·ñ´æÔÚ
+            // æ£€æŸ¥èŠ‚ç‚¹æ˜¯å¦å­˜åœ¨
             Stat stat = zookeeper.exists(path, false);
-            //Èç¹û½Úµã´æÔÚÔòÉ¾³ıÖ®
+            //å¦‚æœèŠ‚ç‚¹å­˜åœ¨åˆ™åˆ é™¤ä¹‹
             if (stat != null) {
-                //ÏÈÉ¾³ı×Ó½Úµã
+                //å…ˆåˆ é™¤å­èŠ‚ç‚¹
                 List<String> nodes = zookeeper.getChildren(path, false);
                 if (nodes != null) {
                     for (String node : nodes) {
                         String dataPath = path + "/" + node;
-                        //»ñÈ¡Êı¾İ
+                        //è·å–æ•°æ®
                         byte[] data = zookeeper.getData(dataPath, false, null);
                         if (data != null) {
-                            //·´ĞòÁĞ»¯
+                            //ååºåˆ—åŒ–
                             Object obj = SerializationUtils.deserialize(data);
                             datas.put(node, (Serializable) obj);
                         }
                         zookeeper.delete(dataPath, -1);
                     }
                 }
-                //É¾³ı¸¸½Úµã
+                //åˆ é™¤çˆ¶èŠ‚ç‚¹
                 zookeeper.delete(path, -1);
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("É¾³ıSession½ÚµãÍê³É:[" + path + "]");
+                    LOGGER.info("åˆ é™¤SessionèŠ‚ç‚¹å®Œæˆ:[" + path + "]");
                 }
             }
         }

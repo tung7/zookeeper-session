@@ -12,12 +12,12 @@ import org.apache.zookeeper.data.Stat;
 import org.storevm.toolkits.utils.SerializationUtils;
 
 /**
- * ½«Êı¾İ·ÅÈë½ÚµãµÄ´¦ÀíÆ÷
+ * å°†æ•°æ®æ”¾å…¥èŠ‚ç‚¹çš„å¤„ç†å™¨
  * @author hzxiongwenwu.tan
- * @version $Id: PutDataHandler.java, v 0.1 2012-4-9 ÉÏÎç10:22:28 hzxiongwenwu.tan Exp $
+ * @version $Id: PutDataHandler.java, v 0.1 2012-4-9 ä¸Šåˆ10:22:28 hzxiongwenwu.tan Exp $
  */
 public class PutDataHandler extends GetDataHandler {
-    /** ´æ·Å½ÚµãµÄÊı¾İ */
+    /** å­˜æ”¾èŠ‚ç‚¹çš„æ•°æ® */
     private Serializable data;
 
     /**
@@ -32,37 +32,37 @@ public class PutDataHandler extends GetDataHandler {
     }
 
     /** 
-     * @see org.storevm.toolkits.session.zookeeper.handler.GetDataHandler#handle()
+     * @see GetDataHandler#handle()
      */
     @Override
     public <T> T handle() throws Exception {
         if (zookeeper != null) {
             String path = GROUP_NAME + NODE_SEP + id;
-            // ¼ì²éÖ¸¶¨µÄSession½ÚµãÊÇ·ñ´æÔÚ
+            // æ£€æŸ¥æŒ‡å®šçš„SessionèŠ‚ç‚¹æ˜¯å¦å­˜åœ¨
             Stat stat = zookeeper.exists(path, false);
-            //Èç¹û½Úµã´æÔÚÔòÉ¾³ıÖ®
+            //å¦‚æœèŠ‚ç‚¹å­˜åœ¨åˆ™åˆ é™¤ä¹‹
             if (stat != null) {
-                //²éÕÒÊı¾İ½ÚµãÊÇ·ñ´æÔÚ£¬²»´æÔÚ¾Í´´½¨Ò»¸ö
+                //æŸ¥æ‰¾æ•°æ®èŠ‚ç‚¹æ˜¯å¦å­˜åœ¨ï¼Œä¸å­˜åœ¨å°±åˆ›å»ºä¸€ä¸ª
                 String dataPath = path + NODE_SEP + key;
                 stat = zookeeper.exists(dataPath, false);
                 if (stat == null) {
-                    //´´½¨Êı¾İ½Úµã
+                    //åˆ›å»ºæ•°æ®èŠ‚ç‚¹
                     zookeeper.create(dataPath, null, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
                     if (LOGGER.isInfoEnabled()) {
-                        LOGGER.info("´´½¨Êı¾İ½ÚµãÍê³É[" + dataPath + "]");
+                        LOGGER.info("åˆ›å»ºæ•°æ®èŠ‚ç‚¹å®Œæˆ[" + dataPath + "]");
                     }
                 }
-                //ÔÚ½ÚµãÉÏÉèÖÃÊı¾İ£¬ËùÓĞÊı¾İ±ØĞë¿ÉĞòÁĞ»¯
+                //åœ¨èŠ‚ç‚¹ä¸Šè®¾ç½®æ•°æ®ï¼Œæ‰€æœ‰æ•°æ®å¿…é¡»å¯åºåˆ—åŒ–
                 if (data instanceof Serializable) {
                     int dataNodeVer = -1;
                     if (stat != null) {
-                        //¼ÇÂ¼Êı¾İ½ÚµãµÄ°æ±¾
+                        //è®°å½•æ•°æ®èŠ‚ç‚¹çš„ç‰ˆæœ¬
                         dataNodeVer = stat.getVersion();
                     }
                     byte[] arrData = SerializationUtils.serialize(data);
                     stat = zookeeper.setData(dataPath, arrData, dataNodeVer);
                     if (LOGGER.isInfoEnabled()) {
-                        LOGGER.info("¸üĞÂÊı¾İ½ÚµãÊı¾İÍê³É[" + dataPath + "][" + data + "]");
+                        LOGGER.info("æ›´æ–°æ•°æ®èŠ‚ç‚¹æ•°æ®å®Œæˆ[" + dataPath + "][" + data + "]");
                     }
                     return (T) Boolean.TRUE;
                 }

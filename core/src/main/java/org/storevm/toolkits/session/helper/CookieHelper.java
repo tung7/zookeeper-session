@@ -11,18 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 /**
- * ²Ù×÷CookieµÄÖúÊÖÀà
- * @author Ì¸ÏéÇì
- * @version $Id: CookieHelper.java, v 0.1 2010-12-29 ÏÂÎç09:03:39 Ì¸ÏéÇì Exp $
+ * æ“ä½œCookieçš„åŠ©æ‰‹ç±»
+ * @author è°ˆç¥¥åº†
+ * @version $Id: CookieHelper.java, v 0.1 2010-12-29 ä¸‹åˆ09:03:39 è°ˆç¥¥åº† Exp $
  */
 public class CookieHelper {
     private static final String DISTRIBUTED_SESSION_ID = "STOREVMJSESSIONID";
     protected static Logger     log                    = Logger.getLogger(CookieHelper.class);
 
     /**
-     * ½«Session IDĞ´µ½¿Í»§¶ËµÄCookieÖĞ
+     * å°†Session IDå†™åˆ°å®¢æˆ·ç«¯çš„Cookieä¸­
      * @param id Session ID
-     * @param response HTTPÏìÓ¦
+     * @param response HTTPå“åº”
      * @return
      */
     public static Cookie writeSessionIdToNewCookie(String id, HttpServletResponse response,
@@ -34,20 +34,20 @@ public class CookieHelper {
     }
 
     /**
-     * ½«Session IDĞ´µ½¿Í»§¶ËµÄCookieÖĞ
+     * å°†Session IDå†™åˆ°å®¢æˆ·ç«¯çš„Cookieä¸­
      * @param id Session ID
-     * @param response HTTPÏìÓ¦
+     * @param response HTTPå“åº”
      * @return
      */
     public static Cookie writeSessionIdToCookie(String id, HttpServletRequest request,
                                                 HttpServletResponse response, int expiry) {
-        //ÏÈ²éÕÒ
+        //å…ˆæŸ¥æ‰¾
         Cookie cookie = findCookie(DISTRIBUTED_SESSION_ID, request);
-        //Èç¹û²»´æÔÚ£¬ÔòĞÂ½¨Ò»¸ö
+        //å¦‚æœä¸å­˜åœ¨ï¼Œåˆ™æ–°å»ºä¸€ä¸ª
         if (cookie == null) {
             return writeSessionIdToNewCookie(id, response, expiry);
         } else {
-            //Ö±½Ó¸ÄĞ´cookieµÄÖµ
+            //ç›´æ¥æ”¹å†™cookieçš„å€¼
             cookie.setValue(id);
             cookie.setMaxAge(expiry);
             response.addCookie(cookie);
@@ -56,9 +56,9 @@ public class CookieHelper {
     }
 
     /**
-     * ²éÑ¯Ö¸¶¨Ãû³ÆµÄCookieÖµ
-     * @param name cookieÃû³Æ
-     * @param request HTTPÇëÇó
+     * æŸ¥è¯¢æŒ‡å®šåç§°çš„Cookieå€¼
+     * @param name cookieåç§°
+     * @param request HTTPè¯·æ±‚
      * @return
      */
     public static String findCookieValue(String name, HttpServletRequest request) {
@@ -70,9 +70,9 @@ public class CookieHelper {
     }
 
     /**
-     * ²éÑ¯Ö¸¶¨Ãû³ÆµÄCookie
-     * @param name cookieÃû³Æ
-     * @param request HTTPÇëÇó
+     * æŸ¥è¯¢æŒ‡å®šåç§°çš„Cookie
+     * @param name cookieåç§°
+     * @param request HTTPè¯·æ±‚
      * @return
      */
     public static Cookie findCookie(String name, HttpServletRequest request) {
@@ -80,7 +80,7 @@ public class CookieHelper {
         if (cookies == null) {
             return null;
         }
-        // µü´ú²éÕÒ
+        // è¿­ä»£æŸ¥æ‰¾
         for (int i = 0, n = cookies.length; i < n; i++) {
             if (cookies[i].getName().equalsIgnoreCase(name)) {
                 return cookies[i];
@@ -90,8 +90,8 @@ public class CookieHelper {
     }
 
     /**
-     * ÔÚCookieÖĞ²éÕÒSession ID
-     * @param request HTTPÇëÇó
+     * åœ¨Cookieä¸­æŸ¥æ‰¾Session ID
+     * @param request HTTPè¯·æ±‚
      * @return
      */
     public static String findSessionId(HttpServletRequest request) {

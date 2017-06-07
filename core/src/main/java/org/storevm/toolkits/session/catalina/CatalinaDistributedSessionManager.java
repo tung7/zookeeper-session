@@ -19,13 +19,13 @@ import org.storevm.toolkits.session.zookeeper.handler.RemoveNodeHandler;
 import org.storevm.toolkits.session.zookeeper.handler.UpdateMetadataHandler;
 
 /**
- * TomcatÈİÆ÷ÏÂµÄSession¹ÜÀíÆ÷
+ * Tomcatå®¹å™¨ä¸‹çš„Sessionç®¡ç†å™¨
  * @author hzxiongwenwu.tan
- * @version $Id: CatalinaDistributedSessionManager.java, v 0.1 2010-12-31 ÏÂÎç05:26:13 hzxiongwenwu.tan Exp $
+ * @version $Id: CatalinaDistributedSessionManager.java, v 0.1 2010-12-31 ä¸‹åˆ05:26:13 hzxiongwenwu.tan Exp $
  */
 public class CatalinaDistributedSessionManager extends DefaultSessionManager {
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param config
      */
     public CatalinaDistributedSessionManager(ServletContext sc) {
@@ -35,35 +35,35 @@ public class CatalinaDistributedSessionManager extends DefaultSessionManager {
     @Override
     public HttpSession getHttpSession(String id, HttpServletRequest request) {
         HttpSession session = sessions.get(id);
-        //ZooKeeper·şÎñÆ÷ÉÏ²éÕÒÖ¸¶¨½ÚµãÊÇ·ñÓĞĞ§£¬²¢¸üĞÂ½ÚµãÔªÊı¾İ
+        //ZooKeeperæœåŠ¡å™¨ä¸ŠæŸ¥æ‰¾æŒ‡å®šèŠ‚ç‚¹æ˜¯å¦æœ‰æ•ˆï¼Œå¹¶æ›´æ–°èŠ‚ç‚¹å…ƒæ•°æ®
         Boolean valid = Boolean.FALSE;
         try {
             valid = client.execute(new UpdateMetadataHandler(id));
         } catch (Exception ex) {
-            LOGGER.error("¸üĞÂ½ÚµãÔªÊı¾İÊ±·¢ÉúÒì³££¬", ex);
+            LOGGER.error("æ›´æ–°èŠ‚ç‚¹å…ƒæ•°æ®æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
         }
-        //Èç¹ûÎªfalse£¬±íÊ¾·şÎñÆ÷ÉÏÎŞ¸ÃSession½Úµã£¬ĞèÒªÖØĞÂ´´½¨(·µ»Ønull)
+        //å¦‚æœä¸ºfalseï¼Œè¡¨ç¤ºæœåŠ¡å™¨ä¸Šæ— è¯¥SessionèŠ‚ç‚¹ï¼Œéœ€è¦é‡æ–°åˆ›å»º(è¿”å›null)
         if (!valid) {
-            //É¾³ı±¾µØµÄ¸±±¾
+            //åˆ é™¤æœ¬åœ°çš„å‰¯æœ¬
             if (session != null) {
                 session.invalidate();
             } else {
-                //É¾³ıZooKeeperÉÏ¹Â¶ùSession½Úµã
+                //åˆ é™¤ZooKeeperä¸Šå­¤å„¿SessionèŠ‚ç‚¹
                 try {
                     client.execute(new RemoveNodeHandler(id));
                 } catch (Exception ex) {
-                    LOGGER.error("É¾³ı½ÚµãÔªÊı¾İÊ±·¢ÉúÒì³££¬", ex);
+                    LOGGER.error("åˆ é™¤èŠ‚ç‚¹å…ƒæ•°æ®æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
                 }
             }
             return null;
         } else {
-            //Èç¹û´æÔÚ£¬ÔòÖ±½Ó·µ»Ø
+            //å¦‚æœå­˜åœ¨ï¼Œåˆ™ç›´æ¥è¿”å›
             if (session != null) {
                 return session;
             }
-            //·ñÔò´´½¨Ö¸¶¨IDµÄSession²¢·µ»Ø(ÓÃÓÚÍ¬²½·Ö²¼Ê½»·¾³ÖĞµÄÆäËû»úÆ÷ÉÏµÄSession±¾µØ¸±±¾)
+            //å¦åˆ™åˆ›å»ºæŒ‡å®šIDçš„Sessionå¹¶è¿”å›(ç”¨äºåŒæ­¥åˆ†å¸ƒå¼ç¯å¢ƒä¸­çš„å…¶ä»–æœºå™¨ä¸Šçš„Sessionæœ¬åœ°å‰¯æœ¬)
             CatalinaDistributedSession sess = new CatalinaDistributedSession(this, id);
-            sess.access(); //±íÊ¾ÒÑ¾­±»·ÃÎÊ¹ıÁË
+            sess.access(); //è¡¨ç¤ºå·²ç»è¢«è®¿é—®è¿‡äº†
             session = new CatalinaDistributedSessionFacade(sess);
             addHttpSession(session);
             return session;
@@ -72,10 +72,10 @@ public class CatalinaDistributedSessionManager extends DefaultSessionManager {
 
     @Override
     public HttpSession newHttpSession(HttpServletRequest request) {
-        String id = getNewSessionId(request); //»ñÈ¡ĞÂµÄSession ID
+        String id = getNewSessionId(request); //è·å–æ–°çš„Session ID
         CatalinaDistributedSession sess = new CatalinaDistributedSession(this, id);
         HttpSession session = new CatalinaDistributedSessionFacade(sess);
-        // Ğ´cookie
+        // å†™cookie
         Cookie cookie = CookieHelper.writeSessionIdToCookie(id, request, getResponse(),
             COOKIE_EXPIRY);
         if (cookie != null) {
@@ -84,16 +84,16 @@ public class CatalinaDistributedSessionManager extends DefaultSessionManager {
                             + cookie.getValue() + "]");
             }
         }
-        //´´½¨ÔªÊı¾İ
+        //åˆ›å»ºå…ƒæ•°æ®
         SessionMetaData metadata = new SessionMetaData();
         metadata.setId(id);
         Long sessionTimeout = NumberUtils.toLong(config.getString(Configuration.SESSION_TIMEOUT));
-        metadata.setMaxIdle(sessionTimeout * 60 * 1000); //×ª»»³ÉºÁÃë
-        //ÔÚZooKeeper·şÎñÆ÷ÉÏ´´½¨session½Úµã£¬½ÚµãÃû³ÆÎªSession ID
+        metadata.setMaxIdle(sessionTimeout * 60 * 1000); //è½¬æ¢æˆæ¯«ç§’
+        //åœ¨ZooKeeperæœåŠ¡å™¨ä¸Šåˆ›å»ºsessionèŠ‚ç‚¹ï¼ŒèŠ‚ç‚¹åç§°ä¸ºSession ID
         try {
             client.execute(new CreateNodeHandler(id, metadata));
         } catch (Exception ex) {
-            LOGGER.error("´´½¨½ÚµãÊ±·¢ÉúÒì³££¬", ex);
+            LOGGER.error("åˆ›å»ºèŠ‚ç‚¹æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
         }
         addHttpSession(session);
         return session;

@@ -7,26 +7,26 @@ package org.storevm.toolkits.session.metadata;
 import java.io.Serializable;
 
 /**
- * SESSIONµÄÔªÊı¾İ¶¨Òå
- * @author Ì¸ÏéÇì
- * @version $Id: SessionMetaData.java, v 0.1 2010-12-30 ÏÂÎç08:33:47 Ì¸ÏéÇì Exp $
+ * SESSIONçš„å…ƒæ•°æ®å®šä¹‰
+ * @author è°ˆç¥¥åº†
+ * @version $Id: SessionMetaData.java, v 0.1 2010-12-30 ä¸‹åˆ08:33:47 è°ˆç¥¥åº† Exp $
  */
 public class SessionMetaData implements Serializable {
     private static final long serialVersionUID = -6446174402446690125L;
     private String            id;
-    /**sessionµÄ´´½¨Ê±¼ä*/
+    /**sessionçš„åˆ›å»ºæ—¶é—´*/
     private Long              createTm;
-    /**sessionµÄ×î´ó¿ÕÏĞÊ±¼ä*/
+    /**sessionçš„æœ€å¤§ç©ºé—²æ—¶é—´*/
     private Long              maxIdle;
-    /**sessionµÄ×îºóÒ»´Î·ÃÎÊÊ±¼ä*/
+    /**sessionçš„æœ€åä¸€æ¬¡è®¿é—®æ—¶é—´*/
     private Long              lastAccessTm;
-    /**ÊÇ·ñ¿ÉÓÃ*/
+    /**æ˜¯å¦å¯ç”¨*/
     private Boolean           validate         = false;
-    /**µ±Ç°°æ±¾*/
+    /**å½“å‰ç‰ˆæœ¬*/
     private int               version          = 0;
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      */
     public SessionMetaData() {
         this.createTm = System.currentTimeMillis();

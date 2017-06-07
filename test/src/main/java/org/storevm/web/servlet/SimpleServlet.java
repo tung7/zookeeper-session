@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * 测试用Servlet
+ * 娴嬭瘯鐢⊿ervlet
  * @author hzxiongwenwu.tan
- * @version $Id: SimpleServlet.java, v 0.1 2011-1-20 下午03:55:28 hzxiongwenwu.tan Exp $
+ * @version $Id: SimpleServlet.java, v 0.1 2011-1-20 涓嬪崍03:55:28 hzxiongwenwu.tan Exp $
  */
 public class SimpleServlet extends HttpServlet {
     /** UID */
@@ -26,9 +26,9 @@ public class SimpleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
                                                                           IOException {
         PrintWriter out = resp.getWriter();
-        //获取Session
+        //鑾峰彇Session
         HttpSession session = req.getSession();
-        //获取参数
+        //鑾峰彇鍙傛暟
         String param = req.getParameter("param");
         if (param.equalsIgnoreCase("1")) {
             session.setAttribute("password", "password");

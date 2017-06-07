@@ -9,12 +9,12 @@ import org.storevm.toolkits.session.zookeeper.AbstractZookeeperHandler;
 import org.storevm.toolkits.utils.SerializationUtils;
 
 /**
- * ·µ»ØÖ¸¶¨¼üÖµ½ÚµãÊı¾İµÄ´¦ÀíÆ÷
+ * è¿”å›æŒ‡å®šé”®å€¼èŠ‚ç‚¹æ•°æ®çš„å¤„ç†å™¨
  * @author hzxiongwenwu.tan
- * @version $Id: GetDataHandler.java, v 0.1 2012-4-9 ÉÏÎç09:59:56 hzxiongwenwu.tan Exp $
+ * @version $Id: GetDataHandler.java, v 0.1 2012-4-9 ä¸Šåˆ09:59:56 hzxiongwenwu.tan Exp $
  */
 public class GetDataHandler extends AbstractZookeeperHandler {
-    /** ¼üÖµÃû³Æ */
+    /** é”®å€¼åç§° */
     protected String key;
 
     /**
@@ -25,7 +25,7 @@ public class GetDataHandler extends AbstractZookeeperHandler {
     }
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param id
      * @param key
      */
@@ -41,18 +41,18 @@ public class GetDataHandler extends AbstractZookeeperHandler {
     public <T> T handle() throws Exception {
         if (zookeeper != null) {
             String path = GROUP_NAME + NODE_SEP + id;
-            // ¼ì²éÖ¸¶¨µÄSession½ÚµãÊÇ·ñ´æÔÚ
+            // æ£€æŸ¥æŒ‡å®šçš„SessionèŠ‚ç‚¹æ˜¯å¦å­˜åœ¨
             Stat stat = zookeeper.exists(path, false);
             if (stat != null) {
-                //²éÕÒÊı¾İ½ÚµãÊÇ·ñ´æÔÚ
+                //æŸ¥æ‰¾æ•°æ®èŠ‚ç‚¹æ˜¯å¦å­˜åœ¨
                 String dataPath = path + NODE_SEP + key;
                 stat = zookeeper.exists(dataPath, false);
                 Object obj = null;
                 if (stat != null) {
-                    //»ñÈ¡½ÚµãÊı¾İ
+                    //è·å–èŠ‚ç‚¹æ•°æ®
                     byte[] data = zookeeper.getData(dataPath, false, null);
                     if (data != null) {
-                        //·´ĞòÁĞ»¯
+                        //ååºåˆ—åŒ–
                         obj = SerializationUtils.deserialize(data);
                     }
                 }

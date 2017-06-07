@@ -25,81 +25,81 @@ import org.storevm.toolkits.session.zookeeper.ZooKeeperClient;
 import org.storevm.toolkits.session.zookeeper.handler.CreateGroupNodeHandler;
 
 /**
- * ·Ö²¼Ê½Session¹ıÂËÆ÷³éÏóÊµÏÖÀà£¬ÓÃÓÚÊµÏÖ¹«ÓĞ·½·¨
- * @author Ì¸ÏéÇì
- * @version $Id: DistributedSessionFilter.java, v 0.1 2010-12-29 ÏÂÎç09:12:46 Ì¸ÏéÇì Exp $
+ * åˆ†å¸ƒå¼Sessionè¿‡æ»¤å™¨æŠ½è±¡å®ç°ç±»ï¼Œç”¨äºå®ç°å…¬æœ‰æ–¹æ³•
+ * @author è°ˆç¥¥åº†
+ * @version $Id: DistributedSessionFilter.java, v 0.1 2010-12-29 ä¸‹åˆ09:12:46 è°ˆç¥¥åº† Exp $
  */
 public abstract class DistributedSessionFilter implements Filter {
     /** log4j */
     protected static final Logger LOGGER = Logger.getLogger(DistributedSessionFilter.class);
 
-    /**Session¹ÜÀíÆ÷*/
+    /**Sessionç®¡ç†å™¨*/
     protected SessionManager      sessionManager;
 
-    /** ZK¿Í»§¶Ë²Ù×÷ */
+    /** ZKå®¢æˆ·ç«¯æ“ä½œ */
     protected ZooKeeperClient     client = DefaultZooKeeperClient.getInstance();
 
     /**
-     * ³õÊ¼»¯
-     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+     * åˆå§‹åŒ–
+     * @see Filter#init(FilterConfig)
      */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        //³õÊ¼»¯ÏµÍ³ÊôĞÔÅäÖÃ
+        //åˆå§‹åŒ–ç³»ç»Ÿå±æ€§é…ç½®
         Configuration conf = Configuration.getInstance();
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("1. ¶ÁÈ¡ÏµÍ³ÅäÖÃÊôĞÔ³É¹¦£¬" + conf);
+            LOGGER.info("1. è¯»å–ç³»ç»Ÿé…ç½®å±æ€§æˆåŠŸï¼Œ" + conf);
         }
 
-        //½«ÅäÖÃÊôĞÔ·ÅÈëÉÏÏÂÎÄÖĞ
+        //å°†é…ç½®å±æ€§æ”¾å…¥ä¸Šä¸‹æ–‡ä¸­
         ServletContext sc = filterConfig.getServletContext();
         sc.setAttribute(Configuration.CFG_NAME, conf);
 
-        //³õÊ¼»¯ZK¿Í»§¶Ë¶ÔÏó³Ø
+        //åˆå§‹åŒ–ZKå®¢æˆ·ç«¯å¯¹è±¡æ± 
         ZookeeperPoolManager.getInstance().init(conf);
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("2. ³õÊ¼»¯ZK¿Í»§¶Ë¶ÔÏó³ØÍê³É");
+            LOGGER.info("2. åˆå§‹åŒ–ZKå®¢æˆ·ç«¯å¯¹è±¡æ± å®Œæˆ");
         }
 
         try {
             client.execute(new CreateGroupNodeHandler());
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("3. ´´½¨SESSIONS×é½ÚµãÍê³É");
+                LOGGER.info("3. åˆ›å»ºSESSIONSç»„èŠ‚ç‚¹å®Œæˆ");
             }
         } catch (Exception ex) {
-            LOGGER.error("´´½¨×é½ÚµãÊ±·¢ÉúÒì³££¬", ex);
+            LOGGER.error("åˆ›å»ºç»„èŠ‚ç‚¹æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
         }
     }
 
     /**
      *
-     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+     * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
                                                                                              throws IOException,
                                                                                              ServletException {
-        //RequestµÄ°ü×°Æ÷£¬ÓÃÓÚÖØĞ´HttpServletRequestµÄgetSession·½·¨
+        //Requestçš„åŒ…è£…å™¨ï¼Œç”¨äºé‡å†™HttpServletRequestçš„getSessionæ–¹æ³•
         HttpServletRequest req = new ContainerRequestWrapper(request, sessionManager);
         chain.doFilter(req, response);
     }
 
     /**
-     * Ïú»Ù
-     * @see javax.servlet.Filter#destroy()
+     * é”€æ¯
+     * @see Filter#destroy()
      */
     @Override
     public void destroy() {
-        //¹Ø±ÕSession¹ÜÀíÆ÷
+        //å…³é—­Sessionç®¡ç†å™¨
         if (sessionManager != null) {
             try {
                 sessionManager.stop();
             } catch (Exception ex) {
-                LOGGER.error("¹Ø±ÕSession¹ÜÀíÆ÷Ê±·¢ÉúÒì³££¬", ex);
+                LOGGER.error("å…³é—­Sessionç®¡ç†å™¨æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
             }
         }
 
-        //¹Ø±ÕZKÊµÀı³Ø
+        //å…³é—­ZKå®ä¾‹æ± 
         ZookeeperPoolManager.getInstance().close();
 
         if (LOGGER.isInfoEnabled()) {

@@ -10,22 +10,22 @@ import org.apache.zookeeper.ZooKeeper;
 import org.storevm.toolkits.session.pool.ZookeeperPoolManager;
 
 /**
- * Ä¬ÈÏZK¿Í»§¶Ë´¦ÀíÊµÏÖ
+ * é»˜è®¤ZKå®¢æˆ·ç«¯å¤„ç†å®ç°
  * @author Administrator
- * @version $Id: ZooKeeperClientImpl.java, v 0.1 2012-4-8 ÏÂÎç6:41:19 Administrator Exp $
+ * @version $Id: ZooKeeperClientImpl.java, v 0.1 2012-4-8 ä¸‹åˆ6:41:19 Administrator Exp $
  */
 public class DefaultZooKeeperClient implements ZooKeeperClient {
-    /** ÈÕÖ¾ */
+    /** æ—¥å¿— */
     private static final Logger    LOGGER = Logger.getLogger(ZooKeeperClient.class);
 
-    /** µ¥Àı¶ÔÏó */
+    /** å•ä¾‹å¯¹è±¡ */
     private static ZooKeeperClient instance;
 
-    /** ZK¶ÔÏó³Ø */
+    /** ZKå¯¹è±¡æ±  */
     private ZookeeperPoolManager   pool;
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      */
     protected DefaultZooKeeperClient() {
         if (pool == null) {
@@ -34,7 +34,7 @@ public class DefaultZooKeeperClient implements ZooKeeperClient {
     }
 
     /**
-     * ·µ»Øµ¥Àı·½·¨
+     * è¿”å›å•ä¾‹æ–¹æ³•
      * 
      * @return
      */
@@ -46,22 +46,22 @@ public class DefaultZooKeeperClient implements ZooKeeperClient {
     }
 
     /** 
-     * @see org.storevm.toolkits.session.zookeeper.ZooKeeperClient#execute(org.storevm.toolkits.session.zookeeper.ZookeeperHandler)
+     * @see ZooKeeperClient#execute(ZookeeperHandler)
      */
     @Override
     public <T> T execute(ZookeeperHandler handler) throws Exception {
-        //´Ó³ØÖĞ»ñÈ¡ZK¶ÔÏó 
+        //ä»æ± ä¸­è·å–ZKå¯¹è±¡ 
         ZooKeeper zk = pool.borrowObject();
         if (zk != null) {
             try {
                 handler.setZooKeeper(zk);
                 return (T) handler.handle();
             } catch (KeeperException ex) {
-                LOGGER.error("Ö´ĞĞZK½Úµã²Ù×÷Ê±·¢ÉúÒì³£: ", ex);
+                LOGGER.error("æ‰§è¡ŒZKèŠ‚ç‚¹æ“ä½œæ—¶å‘ç”Ÿå¼‚å¸¸: ", ex);
             } catch (InterruptedException ex) {
-                LOGGER.error("Ö´ĞĞZK½Úµã²Ù×÷Ê±·¢ÉúÒì³£: ", ex);
+                LOGGER.error("æ‰§è¡ŒZKèŠ‚ç‚¹æ“ä½œæ—¶å‘ç”Ÿå¼‚å¸¸: ", ex);
             } finally {
-                //½«ZK¶ÔÏó·µ»Ø¶ÔÏó³ØÖĞ
+                //å°†ZKå¯¹è±¡è¿”å›å¯¹è±¡æ± ä¸­
                 pool.returnObject(zk);
             }
         }

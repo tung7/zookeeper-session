@@ -9,13 +9,13 @@ import javax.servlet.http.HttpSession;
 import org.apache.catalina.session.StandardSessionFacade;
 
 /**
- * SessionÃÅÃæ£¬¼æÈİTomcatµÄ´¦Àí·½·¨
+ * Sessioné—¨é¢ï¼Œå…¼å®¹Tomcatçš„å¤„ç†æ–¹æ³•
  * @author hzxiongwenwu.tan
- * @version $Id: CatalinaDistributedSession.java, v 0.1 2010-12-31 ÏÂÎç05:16:01 hzxiongwenwu.tan Exp $
+ * @version $Id: CatalinaDistributedSession.java, v 0.1 2010-12-31 ä¸‹åˆ05:16:01 hzxiongwenwu.tan Exp $
  */
 public class CatalinaDistributedSessionFacade extends StandardSessionFacade {
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param session
      */
     public CatalinaDistributedSessionFacade(HttpSession session) {

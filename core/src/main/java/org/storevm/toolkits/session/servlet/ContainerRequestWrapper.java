@@ -17,9 +17,9 @@ import org.apache.log4j.Logger;
 import org.storevm.toolkits.session.SessionManager;
 
 /**
- * HttpServletRequestµÄ°ü×°Æ÷ÊµÏÖ
+ * HttpServletRequestçš„åŒ…è£…å™¨å®ç°
  * @author hzxiongwenwu.tan
- * @version $Id: RequestWrapper.java, v 0.1 2010-12-31 ÏÂÎç04:22:15 hzxiongwenwu.tan Exp $
+ * @version $Id: RequestWrapper.java, v 0.1 2010-12-31 ä¸‹åˆ04:22:15 hzxiongwenwu.tan Exp $
  */
 public class ContainerRequestWrapper extends ServletRequestWrapper implements HttpServletRequest {
     protected Logger       log = Logger.getLogger(getClass());
@@ -27,7 +27,7 @@ public class ContainerRequestWrapper extends ServletRequestWrapper implements Ht
     private HttpSession    session;
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param request
      */
     public ContainerRequestWrapper(ServletRequest request, SessionManager sessionManager) {
@@ -44,12 +44,12 @@ public class ContainerRequestWrapper extends ServletRequestWrapper implements Ht
     }
 
     /** 
-     * @see javax.servlet.http.HttpServletRequest#getSession(boolean)
+     * @see HttpServletRequest#getSession(boolean)
      */
     @Override
     public HttpSession getSession(boolean create) {
         HttpServletRequest request = (HttpServletRequest) getRequest();
-        //¼ì²éSession¹ÜÀíÆ÷
+        //æ£€æŸ¥Sessionç®¡ç†å™¨
         if (sessionManager == null && create) {
             throw new IllegalStateException("No SessionHandler or SessionManager");
         }
@@ -59,17 +59,17 @@ public class ContainerRequestWrapper extends ServletRequestWrapper implements Ht
 
         session = null;
 
-        //´Ó¿Í»§¶ËcookieÖĞ²éÕÒSession ID
+        //ä»å®¢æˆ·ç«¯cookieä¸­æŸ¥æ‰¾Session ID
         String id = sessionManager.getRequestSessionId(request);
-        log.debug("»ñÈ¡¿Í»§¶ËµÄSession ID:[" + id + "]");
+        log.debug("è·å–å®¢æˆ·ç«¯çš„Session ID:[" + id + "]");
         if (id != null && sessionManager != null) {
-            //Èç¹û´æÔÚ£¬ÔòÏÈ´Ó¹ÜÀíÆ÷ÖĞÈ¡
+            //å¦‚æœå­˜åœ¨ï¼Œåˆ™å…ˆä»ç®¡ç†å™¨ä¸­å–
             session = sessionManager.getHttpSession(id, request);
             if (session == null && !create) {
                 return null;
             }
         }
-        //·ñÔòÊµÀı»¯Ò»¸öĞÂµÄSession¶ÔÏó
+        //å¦åˆ™å®ä¾‹åŒ–ä¸€ä¸ªæ–°çš„Sessionå¯¹è±¡
         if (session == null && sessionManager != null && create) {
             session = sessionManager.newHttpSession(request);
         }

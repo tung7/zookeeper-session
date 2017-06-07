@@ -37,13 +37,13 @@ public class AppTest extends TestCase {
     public void testApp() throws Exception {
         final String GROUP_NAME = "/SESSIONS";
 
-        //»ñÈ¡ÅäÖÃĞÅÏ¢¶ÔÏó
+        //è·å–é…ç½®ä¿¡æ¯å¯¹è±¡
         Configuration config = Configuration.getInstance();
 
-        //³õÊ¼»¯ZKÊµÀı³Ø
+        //åˆå§‹åŒ–ZKå®ä¾‹æ± 
         ZookeeperPoolManager.getInstance().init(config);
 
-        //»ñÈ¡ZK¿Í»§¶Ë
+        //è·å–ZKå®¢æˆ·ç«¯
         ZooKeeperClient client = DefaultZooKeeperClient.getInstance();
 
         long current = System.currentTimeMillis();
@@ -56,7 +56,7 @@ public class AppTest extends TestCase {
 
         System.out.println("exec time:[" + (System.currentTimeMillis() - current) + "]");
 
-        //¹Ø±ÕZKÊµÀı³Ø
+        //å…³é—­ZKå®ä¾‹æ± 
         ZookeeperPoolManager.getInstance().close();
     }
 }

@@ -10,11 +10,11 @@ import org.apache.log4j.Logger;
 import org.storevm.toolkits.session.jetty.JettyDistributedSessionManager;
 
 /**
- * ÓÃÓÚJettyÈİÆ÷µÄ·Ö²¼Ê½SessionµÄ¹ıÂËÆ÷ÊµÏÖ
+ * ç”¨äºJettyå®¹å™¨çš„åˆ†å¸ƒå¼Sessionçš„è¿‡æ»¤å™¨å®ç°
  * 
- * @author Ì¸ÏéÇì
- * @version $Id: JettyDistributedSessionFilter.java, v 0.1 2010-12-29 ÏÂÎç09:10:29
- *          Ì¸ÏéÇì Exp $
+ * @author è°ˆç¥¥åº†
+ * @version $Id: JettyDistributedSessionFilter.java, v 0.1 2010-12-29 ä¸‹åˆ09:10:29
+ *          è°ˆç¥¥åº† Exp $
  */
 public class JettyDistributedSessionFilter extends DistributedSessionFilter {
     private Logger log = Logger.getLogger(getClass());
@@ -22,10 +22,10 @@ public class JettyDistributedSessionFilter extends DistributedSessionFilter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         super.init(filterConfig);
-        // ÊµÀı»¯JettyÈİÆ÷ÏÂµÄSession¹ÜÀíÆ÷
+        // å®ä¾‹åŒ–Jettyå®¹å™¨ä¸‹çš„Sessionç®¡ç†å™¨
         sessionManager = new JettyDistributedSessionManager(filterConfig.getServletContext());
         try {
-            sessionManager.start(); // Æô¶¯³õÊ¼»¯
+            sessionManager.start(); // å¯åŠ¨åˆå§‹åŒ–
             log.debug("DistributedSessionFilter.init completed.");
         } catch (Exception e) {
             log.error(e);

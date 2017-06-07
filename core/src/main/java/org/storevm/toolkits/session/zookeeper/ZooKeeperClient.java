@@ -5,9 +5,9 @@
 package org.storevm.toolkits.session.zookeeper;
 
 /**
- * ZK¿Í»§¶Ë½Ó¿Ú¶¨Òå
+ * ZKå®¢æˆ·ç«¯æ¥å£å®šä¹‰
  * @author Administrator
- * @version $Id: ZooKeeperManager.java, v 0.1 2012-4-8 ÉÏÎç9:23:20 Administrator Exp $
+ * @version $Id: ZooKeeperManager.java, v 0.1 2012-4-8 ä¸Šåˆ9:23:20 Administrator Exp $
  */
 public interface ZooKeeperClient {
 

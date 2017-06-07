@@ -7,9 +7,9 @@ package org.storevm.toolkits.session.zookeeper.handler;
 import org.storevm.toolkits.session.metadata.SessionMetaData;
 
 /**
- * ·µ»Ø½Úµã¼üÖµÃû³Æ¼¯ºÏµÄ´¦ÀíÆ÷
+ * è¿”å›èŠ‚ç‚¹é”®å€¼åç§°é›†åˆçš„å¤„ç†å™¨
  * @author hzxiongwenwu.tan
- * @version $Id: GetNodeNames.java, v 0.1 2012-4-9 ÏÂÎç12:10:56 hzxiongwenwu.tan Exp $
+ * @version $Id: GetNodeNames.java, v 0.1 2012-4-9 ä¸‹åˆ12:10:56 hzxiongwenwu.tan Exp $
  */
 public class GetNodeNames extends GetMetadataHandler {
 
@@ -21,20 +21,20 @@ public class GetNodeNames extends GetMetadataHandler {
     }
 
     /** 
-     * @see org.storevm.toolkits.session.zookeeper.handler.GetMetadataHandler#handle()
+     * @see GetMetadataHandler#handle()
      */
     @Override
     public <T> T handle() throws Exception {
         if (zookeeper != null) {
             String path = GROUP_NAME + NODE_SEP + id;
 
-            //»ñÈ¡ÔªÊı¾İ
+            //è·å–å…ƒæ•°æ®
             SessionMetaData metadata = super.handle();
-            //Èç¹û²»´æÔÚ»òÊÇÎŞĞ§£¬ÔòÖ±½Ó·µ»Ønull
+            //å¦‚æœä¸å­˜åœ¨æˆ–æ˜¯æ— æ•ˆï¼Œåˆ™ç›´æ¥è¿”å›null
             if (metadata == null || !metadata.getValidate()) {
                 return null;
             }
-            //»ñÈ¡ËùÓĞ×Ó½Úµã
+            //è·å–æ‰€æœ‰å­èŠ‚ç‚¹
             return (T) zookeeper.getChildren(path, false);
         }
         return (T) null;

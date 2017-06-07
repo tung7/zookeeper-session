@@ -7,18 +7,18 @@ package org.storevm.toolkits.session.zookeeper.handler;
 /**
  * 
  * @author hzxiongwenwu.tan
- * @version $Id: CreateGroupNodeHandler.java, v 0.1 2012-4-9 …œŒÁ09:27:34 hzxiongwenwu.tan Exp $
+ * @version $Id: CreateGroupNodeHandler.java, v 0.1 2012-4-9 ‰∏äÂçà09:27:34 hzxiongwenwu.tan Exp $
  */
 public class CreateGroupNodeHandler extends CreateNodeHandler {
     /**
-     * ππ‘Ï∑Ω∑®
+     * ÊûÑÈÄ†ÊñπÊ≥ï
      */
     public CreateGroupNodeHandler() {
         this(GROUP_NAME);
     }
 
     /**
-     * ππ‘Ï∑Ω∑®
+     * ÊûÑÈÄ†ÊñπÊ≥ï
      * @param nodeName
      */
     protected CreateGroupNodeHandler(String id) {

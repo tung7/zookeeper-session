@@ -13,12 +13,12 @@ import org.storevm.toolkits.session.zookeeper.AbstractZookeeperHandler;
 import org.storevm.toolkits.utils.SerializationUtils;
 
 /**
- * ´´½¨ZK½Úµã
+ * åˆ›å»ºZKèŠ‚ç‚¹
  * @author Administrator
- * @version $Id: CreateNode.java, v 0.1 2012-4-8 ÏÂÎç6:14:57 Administrator Exp $
+ * @version $Id: CreateNode.java, v 0.1 2012-4-8 ä¸‹åˆ6:14:57 Administrator Exp $
  */
 public class CreateNodeHandler extends AbstractZookeeperHandler {
-    /** ½ÚµãÔªÊı¾İ */
+    /** èŠ‚ç‚¹å…ƒæ•°æ® */
     private SessionMetaData metadata;
 
     /**
@@ -32,7 +32,7 @@ public class CreateNodeHandler extends AbstractZookeeperHandler {
     }
 
     /** 
-     * @see org.storevm.toolkits.session.zookeeper.AbstractZookeeperHandler#handle()
+     * @see AbstractZookeeperHandler#handle()
      */
     @Override
     public <T> T handle() throws Exception {
@@ -41,11 +41,11 @@ public class CreateNodeHandler extends AbstractZookeeperHandler {
             if (!StringUtils.startsWithIgnoreCase(id, GROUP_NAME)) {
                 path = GROUP_NAME + NODE_SEP + id;
             }
-            // ¼ì²é½ÚµãÊÇ·ñ´æÔÚ
+            // æ£€æŸ¥èŠ‚ç‚¹æ˜¯å¦å­˜åœ¨
             Stat stat = zookeeper.exists(path, false);
-            //statÎªnull±íÊ¾ÎŞ´Ë½Úµã£¬ĞèÒª´´½¨
+            //statä¸ºnullè¡¨ç¤ºæ— æ­¤èŠ‚ç‚¹ï¼Œéœ€è¦åˆ›å»º
             if (stat == null) {
-                // ´´½¨×é¼şµã
+                // åˆ›å»ºç»„ä»¶ç‚¹
                 byte[] arrData = null;
                 if (metadata != null) {
                     arrData = SerializationUtils.serialize(metadata);
@@ -53,11 +53,11 @@ public class CreateNodeHandler extends AbstractZookeeperHandler {
                 String createPath = zookeeper.create(path, arrData, Ids.OPEN_ACL_UNSAFE,
                     CreateMode.PERSISTENT);
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("´´½¨½ÚµãÍê³É:[" + createPath + "]");
+                    LOGGER.info("åˆ›å»ºèŠ‚ç‚¹å®Œæˆ:[" + createPath + "]");
                 }
             } else {
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("×é½ÚµãÒÑ´æÔÚ£¬ÎŞĞè´´½¨[" + path + "]");
+                    LOGGER.info("ç»„èŠ‚ç‚¹å·²å­˜åœ¨ï¼Œæ— éœ€åˆ›å»º[" + path + "]");
                 }
             }
         }

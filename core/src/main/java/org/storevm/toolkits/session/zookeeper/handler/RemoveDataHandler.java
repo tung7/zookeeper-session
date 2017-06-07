@@ -10,7 +10,7 @@ import org.storevm.toolkits.utils.SerializationUtils;
 /**
  * 
  * @author hzxiongwenwu.tan
- * @version $Id: RemoveDataHandler.java, v 0.1 2012-4-9 ÉÏÎç10:49:17 hzxiongwenwu.tan Exp $
+ * @version $Id: RemoveDataHandler.java, v 0.1 2012-4-9 ä¸Šåˆ10:49:17 hzxiongwenwu.tan Exp $
  */
 public class RemoveDataHandler extends GetDataHandler {
 
@@ -23,7 +23,7 @@ public class RemoveDataHandler extends GetDataHandler {
     }
 
     /** 
-     * @see org.storevm.toolkits.session.zookeeper.handler.GetDataHandler#handle()
+     * @see GetDataHandler#handle()
      */
     @Override
     public <T> T handle() throws Exception {
@@ -31,20 +31,20 @@ public class RemoveDataHandler extends GetDataHandler {
         if (zookeeper != null) {
             String path = GROUP_NAME + NODE_SEP + id;
 
-            // ¼ì²éÖ¸¶¨µÄSession½ÚµãÊÇ·ñ´æÔÚ
+            // æ£€æŸ¥æŒ‡å®šçš„SessionèŠ‚ç‚¹æ˜¯å¦å­˜åœ¨
             Stat stat = zookeeper.exists(path, false);
             if (stat != null) {
-                //²éÕÒÊı¾İ½ÚµãÊÇ·ñ´æÔÚ
+                //æŸ¥æ‰¾æ•°æ®èŠ‚ç‚¹æ˜¯å¦å­˜åœ¨
                 String dataPath = path + NODE_SEP + key;
                 stat = zookeeper.exists(dataPath, false);
                 if (stat != null) {
-                    //µÃµ½Êı¾İ½ÚµãµÄÊı¾İ
+                    //å¾—åˆ°æ•°æ®èŠ‚ç‚¹çš„æ•°æ®
                     byte[] data = zookeeper.getData(dataPath, false, null);
                     if (data != null) {
-                        //·´ĞòÁĞ»¯
+                        //ååºåˆ—åŒ–
                         value = SerializationUtils.deserialize(data);
                     }
-                    //É¾³ı½Úµã
+                    //åˆ é™¤èŠ‚ç‚¹
                     zookeeper.delete(dataPath, -1);
                 }
             }

@@ -14,8 +14,8 @@ import org.apache.log4j.Logger;
 
 /**
  * 
- * @author Ã∏œÈ«Ï
- * @version $Id: DefaultSessionIdManager.java, v 0.1 2011-1-1 …œŒÁ11:53:39 Ã∏œÈ«Ï Exp $
+ * @author Ë∞àÁ••Â∫Ü
+ * @version $Id: DefaultSessionIdManager.java, v 0.1 2011-1-1 ‰∏äÂçà11:53:39 Ë∞àÁ••Â∫Ü Exp $
  */
 public class DefaultSessionIdManager implements SessionIdManager {
     private final static String   __NEW_SESSION_ID                = "org.storevm.newSessionId";
@@ -84,7 +84,7 @@ public class DefaultSessionIdManager implements SessionIdManager {
 
     /**
      *
-     * @see org.storevm.toolkits.session.SessionIdManager#newSessionId(javax.servlet.http.HttpServletRequest, long)
+     * @see SessionIdManager#newSessionId(HttpServletRequest, long)
      */
     @Override
     public String newSessionId(HttpServletRequest request, long created) {

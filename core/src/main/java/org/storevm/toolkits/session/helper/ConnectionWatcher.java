@@ -13,9 +13,9 @@ import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooKeeper;
 
 /**
- * Á¬½ÓZooKeeper·şÎñÆ÷µÄwatcherÊµÏÖ
+ * è¿æ¥ZooKeeperæœåŠ¡å™¨çš„watcherå®ç°
  * 
- * @author Ì¸ÏéÇì
+ * @author è°ˆç¥¥åº†
  * 
  */
 public class ConnectionWatcher implements Watcher {
@@ -24,7 +24,7 @@ public class ConnectionWatcher implements Watcher {
     private Logger           log             = Logger.getLogger(getClass());
 
     /**
-     * Á¬½ÓZK¿Í»§¶Ë
+     * è¿æ¥ZKå®¢æˆ·ç«¯
      * @throws IOException
      * @throws InterruptedException
      */
@@ -33,7 +33,7 @@ public class ConnectionWatcher implements Watcher {
     }
 
     /**
-     * Á¬½ÓZK¿Í»§¶Ë
+     * è¿æ¥ZKå®¢æˆ·ç«¯
      * 
      * @param servers
      * @param sessionTimeout

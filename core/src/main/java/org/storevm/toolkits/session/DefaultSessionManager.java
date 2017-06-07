@@ -26,29 +26,29 @@ import org.storevm.toolkits.session.zookeeper.ZooKeeperClient;
 import org.storevm.toolkits.session.zookeeper.handler.TimeoutHandler;
 
 /**
- * Session¹ÜÀíÆ÷³éÏóÊµÏÖ
- * @author Ì¸ÏéÇì
- * @version $Id: AbstractSessionManager.java, v 0.1 2010-12-29 ÏÂÎç09:49:18 Ì¸ÏéÇì Exp $
+ * Sessionç®¡ç†å™¨æŠ½è±¡å®ç°
+ * @author è°ˆç¥¥åº†
+ * @version $Id: AbstractSessionManager.java, v 0.1 2010-12-29 ä¸‹åˆ09:49:18 è°ˆç¥¥åº† Exp $
  */
 public abstract class DefaultSessionManager implements SessionManager {
     protected static final Logger      LOGGER  = Logger.getLogger(DefaultSessionManager.class);
-    /**±¾µØµÄsessionÈİÆ÷*/
+    /**æœ¬åœ°çš„sessionå®¹å™¨*/
     protected Map<String, HttpSession> sessions;
-    /** ¶¨Ê±ÈÎÎñÖ´ĞĞÆ÷ */
+    /** å®šæ—¶ä»»åŠ¡æ‰§è¡Œå™¨ */
     protected ExecutorService          executor;
-    /** ²ÎÊıÅäÖÃ */
+    /** å‚æ•°é…ç½® */
     protected Configuration            config;
     private boolean                    started = false;
     private boolean                    stopped = false;
-    /**Session ID¹ÜÀíÆ÷*/
+    /**Session IDç®¡ç†å™¨*/
     private SessionIdManager           sessionIdManager;
     private ServletContext             sc;
     private HttpServletResponse        response;
-    /** ZK¿Í»§¶Ë²Ù×÷ */
+    /** ZKå®¢æˆ·ç«¯æ“ä½œ */
     protected ZooKeeperClient          client  = DefaultZooKeeperClient.getInstance();
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param sc
      */
     public DefaultSessionManager(ServletContext sc) {
@@ -70,7 +70,7 @@ public abstract class DefaultSessionManager implements SessionManager {
                 sessionIdManager = new DefaultSessionIdManager();
                 sessionIdManager.start();
             }
-            // Æô¶¯¶¨Ê±ÈÎÎñÖ´ĞĞÆ÷
+            // å¯åŠ¨å®šæ—¶ä»»åŠ¡æ‰§è¡Œå™¨
             int poolSize = NumberUtils.toInt(config.getString(Configuration.POOLSIZE));
             executor = Executors.newFixedThreadPool(poolSize);
             started = true;
@@ -85,7 +85,7 @@ public abstract class DefaultSessionManager implements SessionManager {
     public void stop() throws Exception {
         if (!isStopped()) {
             if (sessions != null) {
-                //Èç¹û´æÔÚ±¾µØSession£¬ÔòÈ«²¿Ê§Ğ§µô
+                //å¦‚æœå­˜åœ¨æœ¬åœ°Sessionï¼Œåˆ™å…¨éƒ¨å¤±æ•ˆæ‰
                 for (HttpSession s : sessions.values()) {
                     s.invalidate();
                 }
@@ -95,7 +95,7 @@ public abstract class DefaultSessionManager implements SessionManager {
             if (sessionIdManager != null) {
                 sessionIdManager.stop();
             }
-            // ¹Ø±Õ¶¨Ê±ÈÎÎñ
+            // å…³é—­å®šæ—¶ä»»åŠ¡
             executor.shutdown(); // Disable new tasks from being submitted
             try {
                 // Wait a while for existing tasks to terminate
@@ -135,7 +135,7 @@ public abstract class DefaultSessionManager implements SessionManager {
     }
 
     /** 
-     * @see org.storevm.toolkits.session.SessionManager#getServletContext()
+     * @see SessionManager#getServletContext()
      */
     @Override
     public ServletContext getServletContext() {
@@ -143,7 +143,7 @@ public abstract class DefaultSessionManager implements SessionManager {
     }
 
     /** 
-     * @see org.storevm.toolkits.session.SessionManager#setServletContext(javax.servlet.ServletContext)
+     * @see SessionManager#setServletContext(ServletContext)
      */
     @Override
     public void setServletContext(ServletContext sc) {
@@ -151,7 +151,7 @@ public abstract class DefaultSessionManager implements SessionManager {
     }
 
     /** 
-     * @see org.storevm.toolkits.session.SessionManager#getResponse()
+     * @see SessionManager#getResponse()
      */
     @Override
     public HttpServletResponse getResponse() {
@@ -159,7 +159,7 @@ public abstract class DefaultSessionManager implements SessionManager {
     }
 
     /** 
-     * @see org.storevm.toolkits.session.SessionManager#setHttpServletResponse(javax.servlet.http.HttpServletResponse)
+     * @see SessionManager#setHttpServletResponse(HttpServletResponse)
      */
     @Override
     public void setHttpServletResponse(HttpServletResponse response) {
@@ -168,7 +168,7 @@ public abstract class DefaultSessionManager implements SessionManager {
 
     /**
      * 
-     * @see org.storevm.toolkits.session.SessionManager#getNewSessionId(javax.servlet.http.HttpServletRequest)
+     * @see SessionManager#getNewSessionId(HttpServletRequest)
      */
     @Override
     public String getNewSessionId(HttpServletRequest request) {
@@ -179,7 +179,7 @@ public abstract class DefaultSessionManager implements SessionManager {
     }
 
     /**
-     * ²éÕÒÖ¸¶¨µÄCookie
+     * æŸ¥æ‰¾æŒ‡å®šçš„Cookie
      * 
      * @param request
      * @return
@@ -191,7 +191,7 @@ public abstract class DefaultSessionManager implements SessionManager {
 
     /**
      *
-     * @see org.storevm.toolkits.session.SessionManager#removeHttpSession(javax.servlet.http.HttpSession)
+     * @see SessionManager#removeHttpSession(HttpSession)
      */
     @Override
     public void removeHttpSession(HttpSession session) {
@@ -204,7 +204,7 @@ public abstract class DefaultSessionManager implements SessionManager {
     }
 
     /**
-     * ¼ÓÈëÒ»¸öÊÜ¹ÜÀíµÄSession¶ÔÏó
+     * åŠ å…¥ä¸€ä¸ªå—ç®¡ç†çš„Sessionå¯¹è±¡
      * 
      * @param session
      * @param request
@@ -217,23 +217,23 @@ public abstract class DefaultSessionManager implements SessionManager {
         String id = session.getId();
         if (!sessions.containsKey(id)) {
             sessions.put(id, session);
-            //Æô¶¯Ò»¸öÏß³Ì£¬ÓÃÓÚÂÖÑ¯sessionµÄ³¬Ê±
+            //å¯åŠ¨ä¸€ä¸ªçº¿ç¨‹ï¼Œç”¨äºè½®è¯¢sessionçš„è¶…æ—¶
             executor.submit(new checkSessionTimeoutTask(session));
         }
     }
 
     /**
-     * ¼ì²éSessionÊÇ·ñ³¬Ê±µÄ¶¨Ê±ÈÎÎñ
+     * æ£€æŸ¥Sessionæ˜¯å¦è¶…æ—¶çš„å®šæ—¶ä»»åŠ¡
      * 
-     * @author Ì¸ÏéÇì
-     * @version $Id: DefaultSessionManager.java, v 0.1 2011-1-9 ÏÂÎç04:09:21 Ì¸ÏéÇì Exp $
+     * @author è°ˆç¥¥åº†
+     * @version $Id: DefaultSessionManager.java, v 0.1 2011-1-9 ä¸‹åˆ04:09:21 è°ˆç¥¥åº† Exp $
      */
     protected class checkSessionTimeoutTask implements Callable<Boolean> {
         private HttpSession       session;
         private static final long SLEEP_TIMEOUT = 10L;
 
         /**
-         * ¹¹Ôì·½·¨
+         * æ„é€ æ–¹æ³•
          * @param session
          */
         public checkSessionTimeoutTask(HttpSession session) {
@@ -251,13 +251,13 @@ public abstract class DefaultSessionManager implements SessionManager {
                     Boolean timeout = client.execute(new TimeoutHandler(session.getId()));
                     if (timeout) {
                         session.invalidate();
-                        //Èç¹û³¬Ê±³É¹¦ÔòÍË³öÂÖÑ¯
+                        //å¦‚æœè¶…æ—¶æˆåŠŸåˆ™é€€å‡ºè½®è¯¢
                         break;
                     }
                     //sleep
                     TimeUnit.SECONDS.sleep(SLEEP_TIMEOUT);
                 } catch (Exception ex) {
-                    LOGGER.error("Session³¬Ê±¶¨Ê±ÈÎÎñ·¢ÉúÒì³££¬", ex);
+                    LOGGER.error("Sessionè¶…æ—¶å®šæ—¶ä»»åŠ¡å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
                 }
             }
             return true;

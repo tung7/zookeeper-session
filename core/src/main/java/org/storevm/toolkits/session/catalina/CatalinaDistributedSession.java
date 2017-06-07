@@ -30,33 +30,33 @@ import org.storevm.toolkits.session.zookeeper.handler.RemoveDataHandler;
 import org.storevm.toolkits.session.zookeeper.handler.RemoveNodeHandler;
 
 /**
- * TomcatÈİÆ÷ÏÂµÄHttpSessionÊµÏÖ
+ * Tomcatå®¹å™¨ä¸‹çš„HttpSessionå®ç°
  * @author hzxiongwenwu.tan
- * @version $Id: CatalinaDistributedSession.java, v 0.1 2010-12-31 ÏÂÎç05:23:45 hzxiongwenwu.tan Exp $
+ * @version $Id: CatalinaDistributedSession.java, v 0.1 2010-12-31 ä¸‹åˆ05:23:45 hzxiongwenwu.tan Exp $
  */
 @SuppressWarnings("deprecation")
 public class CatalinaDistributedSession implements HttpSession {
     /** log4j */
     private static final Logger LOGGER = Logger.getLogger(CatalinaDistributedSession.class);
 
-    /**Session¹ÜÀíÆ÷*/
+    /**Sessionç®¡ç†å™¨*/
     private SessionManager      sessionManager;
     /**Session ID*/
     private String              id;
-    /**Session´´½¨Ê±¼ä*/
+    /**Sessionåˆ›å»ºæ—¶é—´*/
     private long                creationTm;
-    /**Session×îºóÒ»´Î·ÃÎÊÊ±¼ä*/
+    /**Sessionæœ€åä¸€æ¬¡è®¿é—®æ—¶é—´*/
     private long                lastAccessedTm;
-    /**SessionµÄ×î´ó¿ÕÏĞÊ±¼ä¼ä¸ô*/
+    /**Sessionçš„æœ€å¤§ç©ºé—²æ—¶é—´é—´éš”*/
     private int                 maxInactiveInterval;
-    /**ÊÇ·ñÊÇĞÂ½¨Session*/
+    /**æ˜¯å¦æ˜¯æ–°å»ºSession*/
     private boolean             newSession;
 
-    /** ZK¿Í»§¶Ë²Ù×÷ */
+    /** ZKå®¢æˆ·ç«¯æ“ä½œ */
     private ZooKeeperClient     client = DefaultZooKeeperClient.getInstance();
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param sessionManager
      */
     public CatalinaDistributedSession(SessionManager sessionManager) {
@@ -67,7 +67,7 @@ public class CatalinaDistributedSession implements HttpSession {
     }
 
     /**
-     * ¹¹Ôì·½·¨,Ö¸¶¨ID
+     * æ„é€ æ–¹æ³•,æŒ‡å®šID
      * @param sessionManager
      * @param id
      */
@@ -115,14 +115,14 @@ public class CatalinaDistributedSession implements HttpSession {
     @Override
     public Object getAttribute(String name) {
         access();
-        //»ñÈ¡session ID
+        //è·å–session ID
         String id = getId();
         if (StringUtils.isNotBlank(id)) {
-            //·µ»ØSession½ÚµãÏÂµÄÊı¾İ
+            //è¿”å›SessionèŠ‚ç‚¹ä¸‹çš„æ•°æ®
             try {
                 return client.execute(new GetDataHandler(id, name));
             } catch (Exception ex) {
-                LOGGER.error("µ÷ÓÃgetAttribute·½·¨Ê±·¢ÉúÒì³££¬", ex);
+                LOGGER.error("è°ƒç”¨getAttributeæ–¹æ³•æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
             }
         }
         return null;
@@ -136,17 +136,17 @@ public class CatalinaDistributedSession implements HttpSession {
     @Override
     public Enumeration getAttributeNames() {
         access();
-        //»ñÈ¡session ID
+        //è·å–session ID
         String id = getId();
         if (StringUtils.isNotBlank(id)) {
-            //·µ»ØSession½ÚµãÏÂµÄÊı¾İÃû×Ö
+            //è¿”å›SessionèŠ‚ç‚¹ä¸‹çš„æ•°æ®åå­—
             try {
                 List<String> names = client.execute(new GetNodeNames(id));
                 if (names != null) {
                     return Collections.enumeration(names);
                 }
             } catch (Exception ex) {
-                LOGGER.error("µ÷ÓÃgetAttributeNames·½·¨Ê±·¢ÉúÒì³££¬", ex);
+                LOGGER.error("è°ƒç”¨getAttributeNamesæ–¹æ³•æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
             }
 
         }
@@ -165,23 +165,23 @@ public class CatalinaDistributedSession implements HttpSession {
 
     @Override
     public void setAttribute(String name, Object value) {
-        //Ã»ÓĞÊµÏÖĞòÁĞ»¯½Ó¿ÚµÄÖ±½Ó·µ»Ø
+        //æ²¡æœ‰å®ç°åºåˆ—åŒ–æ¥å£çš„ç›´æ¥è¿”å›
         if (!(value instanceof Serializable)) {
-            LOGGER.warn("¶ÔÏó[" + value + "]Ã»ÓĞÊµÏÖSerializable½Ó¿Ú£¬ÎŞ·¨±£´æµ½·Ö²¼Ê½SessionÖĞ");
+            LOGGER.warn("å¯¹è±¡[" + value + "]æ²¡æœ‰å®ç°Serializableæ¥å£ï¼Œæ— æ³•ä¿å­˜åˆ°åˆ†å¸ƒå¼Sessionä¸­");
             return;
         }
         access();
-        //»ñÈ¡session ID
+        //è·å–session ID
         String id = getId();
         if (StringUtils.isNotBlank(id)) {
-            //½«Êı¾İÌí¼Óµ½ZooKeeper·şÎñÆ÷ÉÏ
+            //å°†æ•°æ®æ·»åŠ åˆ°ZooKeeperæœåŠ¡å™¨ä¸Š
             try {
                 value = client.execute(new PutDataHandler(id, name, (Serializable) value));
             } catch (Exception ex) {
-                LOGGER.error("µ÷ÓÃsetAttribute·½·¨Ê±·¢ÉúÒì³££¬", ex);
+                LOGGER.error("è°ƒç”¨setAttributeæ–¹æ³•æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
             }
         }
-        //´¦ÀíSessionµÄ¼àÌıÆ÷
+        //å¤„ç†Sessionçš„ç›‘å¬å™¨
         fireHttpSessionBindEvent(name, value);
     }
 
@@ -194,17 +194,17 @@ public class CatalinaDistributedSession implements HttpSession {
     public void removeAttribute(String name) {
         access();
         Object value = null;
-        //»ñÈ¡session ID
+        //è·å–session ID
         String id = getId();
         if (StringUtils.isNotBlank(id)) {
-            //É¾³ıSession½ÚµãÏÂµÄÊı¾İ
+            //åˆ é™¤SessionèŠ‚ç‚¹ä¸‹çš„æ•°æ®
             try {
                 value = client.execute(new RemoveDataHandler(id, name));
             } catch (Exception ex) {
-                LOGGER.error("µ÷ÓÃremoveAttribute·½·¨Ê±·¢ÉúÒì³££¬", ex);
+                LOGGER.error("è°ƒç”¨removeAttributeæ–¹æ³•æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
             }
         }
-        //´¦ÀíSessionµÄ¼àÌıÆ÷
+        //å¤„ç†Sessionçš„ç›‘å¬å™¨
         fireHttpSessionUnbindEvent(name, value);
     }
 
@@ -215,10 +215,10 @@ public class CatalinaDistributedSession implements HttpSession {
 
     @Override
     public void invalidate() {
-        //»ñÈ¡session ID
+        //è·å–session ID
         String id = getId();
         if (StringUtils.isNotBlank(id)) {
-            //É¾³ıSession½Úµã
+            //åˆ é™¤SessionèŠ‚ç‚¹
             try {
                 Map<String, Object> sessionMap = client.execute(new RemoveNodeHandler(id));
                 if (sessionMap != null) {
@@ -229,10 +229,10 @@ public class CatalinaDistributedSession implements HttpSession {
                     }
                 }
             } catch (Exception ex) {
-                LOGGER.error("µ÷ÓÃinvalidate·½·¨Ê±·¢ÉúÒì³££¬", ex);
+                LOGGER.error("è°ƒç”¨invalidateæ–¹æ³•æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
             }
         }
-        //É¾³ı±¾µØÈİÆ÷ÖĞµÄSession¶ÔÏó
+        //åˆ é™¤æœ¬åœ°å®¹å™¨ä¸­çš„Sessionå¯¹è±¡
         sessionManager.removeHttpSession(this);
     }
 
@@ -242,7 +242,7 @@ public class CatalinaDistributedSession implements HttpSession {
     }
 
     /**
-     * ±»·ÃÎÊ
+     * è¢«è®¿é—®
      */
     public void access() {
         this.newSession = false;
@@ -250,11 +250,11 @@ public class CatalinaDistributedSession implements HttpSession {
     }
 
     /**
-     * ´¥·¢SessionµÄÊÂ¼ş
+     * è§¦å‘Sessionçš„äº‹ä»¶
      * @param value
      */
     protected void fireHttpSessionBindEvent(String name, Object value) {
-        //´¦ÀíSessionµÄ¼àÌıÆ÷
+        //å¤„ç†Sessionçš„ç›‘å¬å™¨
         if (value != null && value instanceof HttpSessionBindingListener) {
             HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, name, value);
             ((HttpSessionBindingListener) value).valueBound(event);
@@ -262,11 +262,11 @@ public class CatalinaDistributedSession implements HttpSession {
     }
 
     /**
-     * ´¥·¢SessionµÄÊÂ¼ş
+     * è§¦å‘Sessionçš„äº‹ä»¶
      * @param value
      */
     protected void fireHttpSessionUnbindEvent(String name, Object value) {
-        //´¦ÀíSessionµÄ¼àÌıÆ÷
+        //å¤„ç†Sessionçš„ç›‘å¬å™¨
         if (value != null && value instanceof HttpSessionBindingListener) {
             HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, name, value);
             ((HttpSessionBindingListener) value).valueUnbound(event);

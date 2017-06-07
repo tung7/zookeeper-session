@@ -9,9 +9,9 @@ import org.storevm.toolkits.session.metadata.SessionMetaData;
 import org.storevm.toolkits.utils.SerializationUtils;
 
 /**
- * ¸üĞÂÔªÊı¾İµÄ´¦ÀíÆ÷
+ * æ›´æ–°å…ƒæ•°æ®çš„å¤„ç†å™¨
  * @author hzxiongwenwu.tan
- * @version $Id: UpdateMetaDataHandler.java, v 0.1 2012-4-9 ÉÏÎç09:31:10 hzxiongwenwu.tan Exp $
+ * @version $Id: UpdateMetaDataHandler.java, v 0.1 2012-4-9 ä¸Šåˆ09:31:10 hzxiongwenwu.tan Exp $
  */
 public class UpdateMetadataHandler extends GetMetadataHandler {
 
@@ -23,12 +23,12 @@ public class UpdateMetadataHandler extends GetMetadataHandler {
     }
 
     /** 
-     * @see org.storevm.toolkits.session.zookeeper.handler.GetMetadataHandler#handle()
+     * @see GetMetadataHandler#handle()
      */
     @Override
     public <T> T handle() throws Exception {
         if (zookeeper != null) {
-            //»ñÈ¡ÔªÊı¾İ
+            //è·å–å…ƒæ•°æ®
             SessionMetaData metadata = super.handle();
             if (metadata != null) {
                 updateMetadata(metadata, zookeeper);
@@ -39,7 +39,7 @@ public class UpdateMetadataHandler extends GetMetadataHandler {
     }
 
     /**
-     * ¸üĞÂ½ÚµãÊı¾İ
+     * æ›´æ–°èŠ‚ç‚¹æ•°æ®
      * 
      * @param metadata
      * @param zk
@@ -48,24 +48,24 @@ public class UpdateMetadataHandler extends GetMetadataHandler {
     protected void updateMetadata(SessionMetaData metadata, ZooKeeper zk) throws Exception {
         if (metadata != null) {
             String id = metadata.getId();
-            Long now = System.currentTimeMillis(); //µ±Ç°Ê±¼ä
-            //¼ì²éÊÇ·ñ¹ıÆÚ
-            Long timeout = metadata.getLastAccessTm() + metadata.getMaxIdle(); //¿ÕÏĞÊ±¼ä
-            //Èç¹û¿ÕÏĞÊ±¼äĞ¡ÓÚµ±Ç°Ê±¼ä£¬Ôò±íÊ¾Session³¬Ê±
+            Long now = System.currentTimeMillis(); //å½“å‰æ—¶é—´
+            //æ£€æŸ¥æ˜¯å¦è¿‡æœŸ
+            Long timeout = metadata.getLastAccessTm() + metadata.getMaxIdle(); //ç©ºé—²æ—¶é—´
+            //å¦‚æœç©ºé—²æ—¶é—´å°äºå½“å‰æ—¶é—´ï¼Œåˆ™è¡¨ç¤ºSessionè¶…æ—¶
             if (timeout < now) {
                 metadata.setValidate(false);
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("Session½ÚµãÒÑ³¬Ê±[" + id + "]");
+                    LOGGER.info("SessionèŠ‚ç‚¹å·²è¶…æ—¶[" + id + "]");
                 }
             }
-            //ÉèÖÃ×îºóÒ»´Î·ÃÎÊÊ±¼ä
+            //è®¾ç½®æœ€åä¸€æ¬¡è®¿é—®æ—¶é—´
             metadata.setLastAccessTm(now);
-            //¸üĞÂ½ÚµãÊı¾İ
+            //æ›´æ–°èŠ‚ç‚¹æ•°æ®
             String path = GROUP_NAME + NODE_SEP + id;
             byte[] data = SerializationUtils.serialize(metadata);
             zk.setData(path, data, metadata.getVersion());
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("¸üĞÂSession½ÚµãµÄÔªÊı¾İÍê³É[" + path + "]");
+                LOGGER.info("æ›´æ–°SessionèŠ‚ç‚¹çš„å…ƒæ•°æ®å®Œæˆ[" + path + "]");
             }
         }
     }

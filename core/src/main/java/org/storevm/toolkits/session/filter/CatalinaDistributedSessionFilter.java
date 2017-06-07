@@ -16,35 +16,35 @@ import javax.servlet.http.HttpServletResponse;
 import org.storevm.toolkits.session.catalina.CatalinaDistributedSessionManager;
 
 /**
- * ÓÃÓÚTomcatÈİÆ÷µÄ·Ö²¼Ê½SessionµÄ¹ıÂËÆ÷ÊµÏÖ
+ * ç”¨äºTomcatå®¹å™¨çš„åˆ†å¸ƒå¼Sessionçš„è¿‡æ»¤å™¨å®ç°
  * @author hzxiongwenwu.tan
- * @version $Id: CatalinaDistributedSessionFilter.java, v 0.1 2010-12-31 ÏÂÎç03:07:55 hzxiongwenwu.tan Exp $
+ * @version $Id: CatalinaDistributedSessionFilter.java, v 0.1 2010-12-31 ä¸‹åˆ03:07:55 hzxiongwenwu.tan Exp $
  */
 public class CatalinaDistributedSessionFilter extends DistributedSessionFilter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         super.init(filterConfig);
-        // ÊµÀı»¯TomcatÈİÆ÷ÏÂµÄSession¹ÜÀíÆ÷
+        // å®ä¾‹åŒ–Tomcatå®¹å™¨ä¸‹çš„Sessionç®¡ç†å™¨
         this.sessionManager = new CatalinaDistributedSessionManager(
             filterConfig.getServletContext());
         try {
-            sessionManager.start(); // Æô¶¯³õÊ¼»¯
+            sessionManager.start(); // å¯åŠ¨åˆå§‹åŒ–
             if (LOGGER.isInfoEnabled()) {
                 LOGGER.info("DistributedSessionFilter.init completed.");
             }
         } catch (Exception ex) {
-            LOGGER.error("¹ıÂËÆ÷³õÊ¼»¯Ê§°Ü£¬", ex);
+            LOGGER.error("è¿‡æ»¤å™¨åˆå§‹åŒ–å¤±è´¥ï¼Œ", ex);
         }
     }
 
     /** 
-     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+     * @see javax.servlet.Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
                                                                                              throws IOException,
                                                                                              ServletException {
-        //ÉèÖÃResponse
+        //è®¾ç½®Response
         sessionManager.setHttpServletResponse((HttpServletResponse) response);
         super.doFilter(request, response, chain);
     }

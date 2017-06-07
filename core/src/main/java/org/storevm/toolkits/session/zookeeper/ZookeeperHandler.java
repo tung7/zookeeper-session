@@ -7,27 +7,27 @@ package org.storevm.toolkits.session.zookeeper;
 import org.apache.zookeeper.ZooKeeper;
 
 /**
- * ZK¿Í»§¶Ë²Ù×÷½Ó¿Ú
+ * ZKå®¢æˆ·ç«¯æ“ä½œæ¥å£
  * @author Administrator
- * @version $Id: ZookeeperOperate.java, v 0.1 2012-4-8 ÏÂÎç6:07:55 Administrator Exp $
+ * @version $Id: ZookeeperOperate.java, v 0.1 2012-4-8 ä¸‹åˆ6:07:55 Administrator Exp $
  */
 public interface ZookeeperHandler {
-    /** ZK×é½ÚµãÃû³Æ */
+    /** ZKç»„èŠ‚ç‚¹åç§° */
     public static final String GROUP_NAME = "/SESSIONS";
 
     public static final String NODE_SEP   = "/";
 
     /**
-     * Ö´ĞĞ¾ßÌå²Ù×÷
+     * æ‰§è¡Œå…·ä½“æ“ä½œ
      * 
      * @throws Exception
      */
     public <T> T handle() throws Exception;
 
     /**
-     * ÉèÖÃZK¿Í»§¶Ë¶ÔÏó
+     * è®¾ç½®ZKå®¢æˆ·ç«¯å¯¹è±¡
      * 
-     * @param zookeeper ZK¿Í»§¶Ë
+     * @param zookeeper ZKå®¢æˆ·ç«¯
      */
     public void setZooKeeper(ZooKeeper zookeeper);
 }

@@ -12,75 +12,75 @@ import javax.servlet.http.HttpSession;
 import org.storevm.toolkits.component.LifeCycle;
 
 /**
- * HttpSessionÉúÃüÖÜÆÚ¹ÜÀíÆ÷½Ó¿Ú
- * @author Ì¸ÏéÇì
- * @version $Id: SessionManager.java, v 0.1 2010-12-29 ÏÂÎç08:57:26 Ì¸ÏéÇì Exp $
+ * HttpSessionç”Ÿå‘½å‘¨æœŸç®¡ç†å™¨æ¥å£
+ * @author è°ˆç¥¥åº†
+ * @version $Id: SessionManager.java, v 0.1 2010-12-29 ä¸‹åˆ08:57:26 è°ˆç¥¥åº† Exp $
  */
 public interface SessionManager extends LifeCycle {
-    /**CookieµÄ¹ıÆÚÊ±¼ä£¬Ä¬ÈÏ1Äê*/
+    /**Cookieçš„è¿‡æœŸæ—¶é—´ï¼Œé»˜è®¤1å¹´*/
     public static final int COOKIE_EXPIRY = 365 * 24 * 60 * 60;
 
     /**
-     * ·µ»ØÖ¸¶¨IDµÄHttpSession¶ÔÏó
+     * è¿”å›æŒ‡å®šIDçš„HttpSessionå¯¹è±¡
      * @param id Session ID
-     * @param request HTTPÇëÇó
+     * @param request HTTPè¯·æ±‚
      * @return
      */
     public HttpSession getHttpSession(String id, HttpServletRequest request);
 
     /**
-     * ´´½¨Ò»¸öĞÂµÄHttpSession¶ÔÏó
-     * @param request HTTPÇëÇó
+     * åˆ›å»ºä¸€ä¸ªæ–°çš„HttpSessionå¯¹è±¡
+     * @param request HTTPè¯·æ±‚
      * @return
      */
     public HttpSession newHttpSession(HttpServletRequest request);
 
     /**
-     * »ñÈ¡ÇëÇó¶ÔÏóÖĞµÄSession¶ÔÏóµÄID£¬Ò»°ãÊÇ´ÓCookieÖĞ»ñÈ¡
-     * @param request HTTPÇëÇó
+     * è·å–è¯·æ±‚å¯¹è±¡ä¸­çš„Sessionå¯¹è±¡çš„IDï¼Œä¸€èˆ¬æ˜¯ä»Cookieä¸­è·å–
+     * @param request HTTPè¯·æ±‚
      * @return
      */
     public String getRequestSessionId(HttpServletRequest request);
 
     /**
-     * ½«Ò»¸öHttpSession¶ÔÏó·ÅÈë¹ÜÀíÈİÆ÷ÖĞ
-     * @param session HTTP Session¶ÔÏó
-     * @param request HTTPÇëÇó
+     * å°†ä¸€ä¸ªHttpSessionå¯¹è±¡æ”¾å…¥ç®¡ç†å®¹å™¨ä¸­
+     * @param session HTTP Sessionå¯¹è±¡
+     * @param request HTTPè¯·æ±‚
      */
     public void addHttpSession(HttpSession session);
 
     /**
-     * É¾³ıSession
+     * åˆ é™¤Session
      * @param session
      */
     public void removeHttpSession(HttpSession session);
 
     /**
-     * ·µ»ØÒ»¸öÎ¨Ò»µÄSession ID
+     * è¿”å›ä¸€ä¸ªå”¯ä¸€çš„Session ID
      * @return 
      */
     public String getNewSessionId(HttpServletRequest request);
 
     /**
-     * ·µ»ØServletÉÏÏÂÎÄ
+     * è¿”å›Servletä¸Šä¸‹æ–‡
      * @return
      */
     public ServletContext getServletContext();
 
     /**
-     * ÉèÖÃServletÉÏÏÂÎÄ
+     * è®¾ç½®Servletä¸Šä¸‹æ–‡
      * @param sc
      */
     public void setServletContext(ServletContext sc);
 
     /**
-     * ·µ»ØHttpServletResponse¶ÔÏó
+     * è¿”å›HttpServletResponseå¯¹è±¡
      * @return
      */
     public HttpServletResponse getResponse();
 
     /**
-     * ÉèÖÃHttpServletResponse¶ÔÏó
+     * è®¾ç½®HttpServletResponseå¯¹è±¡
      * @param response
      */
     public void setHttpServletResponse(HttpServletResponse response);

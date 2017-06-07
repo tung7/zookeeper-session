@@ -9,13 +9,13 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 /**
- * ÅäÖÃĞÅÏ¢ÊµÏÖÀà£¬ÓÃÓÚ¶ÁÈ¡ºÍÉèÖÃÏµÍ³ÅäÖÃÊôĞÔ
+ * é…ç½®ä¿¡æ¯å®ç°ç±»ï¼Œç”¨äºè¯»å–å’Œè®¾ç½®ç³»ç»Ÿé…ç½®å±æ€§
  * 
  * @author Administrator
- * @version $Id: Configuration.java, v 0.1 2012-4-3 ÏÂÎç9:28:53 Administrator Exp $
+ * @version $Id: Configuration.java, v 0.1 2012-4-3 ä¸‹åˆ9:28:53 Administrator Exp $
  */
 public class Configuration {
-    /** ÅäÖÃÊôĞÔ¼üÖµ */
+    /** é…ç½®å±æ€§é”®å€¼ */
     public static final String   SERVERS            = "servers";
     public static final String   MAX_IDLE           = "maxIdle";
     public static final String   INIT_IDLE_CAPACITY = "initIdleCapacity";
@@ -23,35 +23,35 @@ public class Configuration {
     public static final String   TIMEOUT            = "timeout";
     public static final String   POOLSIZE           = "poolSize";
 
-    /** ÅäÖÃÎÄ¼şÃû³Æ */
+    /** é…ç½®æ–‡ä»¶åç§° */
     public static final String   CFG_NAME           = ".cfg.properties";
 
-    /** µ¥Àı¶ÔÏó */
+    /** å•ä¾‹å¯¹è±¡ */
     private static Configuration instance;
 
-    /** ÅäÖÃÊôĞÔÎÄ¼ş */
+    /** é…ç½®å±æ€§æ–‡ä»¶ */
     private Properties           config;
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      */
     protected Configuration() {
         this.config = new Properties();
 
-        //´ÓÓÃ»§Ä¿Â¼¶ÁÈ¡ÅäÖÃÎÄ¼ş
+        //ä»ç”¨æˆ·ç›®å½•è¯»å–é…ç½®æ–‡ä»¶
         String basedir = System.getProperty("user.home");
         File file = new File(basedir, CFG_NAME);
         try {
-            //Èç¹ûÎÄ¼ş²»´æÔÚ£¬Ôò´´½¨ĞÂÎÄ¼ş
+            //å¦‚æœæ–‡ä»¶ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»ºæ–°æ–‡ä»¶
             boolean exist = file.exists();
             if (!exist) {
                 file.createNewFile();
             }
 
-            //¶ÁÈ¡ÅäÖÃÊôĞÔ
+            //è¯»å–é…ç½®å±æ€§
             this.config.load(new FileInputStream(file));
 
-            //Èç¹ûÅäÖÃ²»´æÔÚ£¬ÔòĞ´ÈëÄ¬ÈÏÖµ
+            //å¦‚æœé…ç½®ä¸å­˜åœ¨ï¼Œåˆ™å†™å…¥é»˜è®¤å€¼
             if (!exist) {
                 this.config.setProperty(SERVERS, "www.storevm.org");
                 this.config.setProperty(MAX_IDLE, "8");
@@ -67,7 +67,7 @@ public class Configuration {
     }
 
     /**
-     * ·µ»ØÊµÀıµÄ·½·¨
+     * è¿”å›å®ä¾‹çš„æ–¹æ³•
      * 
      * @return
      */
@@ -79,7 +79,7 @@ public class Configuration {
     }
 
     /**
-     * ·µ»ØÖ¸¶¨ÊôĞÔ¼üÖµ¶ÔÓ¦µÄÅäÖÃÏîÖµµÄ×Ö·û´®¸ñÊ½(´øÓĞÄ¬ÈÏÖµ)
+     * è¿”å›æŒ‡å®šå±æ€§é”®å€¼å¯¹åº”çš„é…ç½®é¡¹å€¼çš„å­—ç¬¦ä¸²æ ¼å¼(å¸¦æœ‰é»˜è®¤å€¼)
      * 
      * @param key
      * @param defaultValue
@@ -93,7 +93,7 @@ public class Configuration {
     }
 
     /**
-     * ·µ»ØÖ¸¶¨ÊôĞÔ¼üÖµ¶ÔÓ¦µÄÅäÖÃÏîÖµµÄ×Ö·û´®¸ñÊ½
+     * è¿”å›æŒ‡å®šå±æ€§é”®å€¼å¯¹åº”çš„é…ç½®é¡¹å€¼çš„å­—ç¬¦ä¸²æ ¼å¼
      * 
      * @param key
      * @return
@@ -103,7 +103,7 @@ public class Configuration {
     }
 
     /** 
-     * @see java.lang.Object#toString()
+     * @see Object#toString()
      */
     @Override
     public String toString() {

@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.storevm.toolkits.component.LifeCycle;
 
 /**
- * Session ID¹ÜÀíÆ÷
- * @author Ì¸ÏéÇì
- * @version $Id: SessionIdManager.java, v 0.1 2011-1-1 ÉÏÎç11:49:44 Ì¸ÏéÇì Exp $
+ * Session IDç®¡ç†å™¨
+ * @author è°ˆç¥¥åº†
+ * @version $Id: SessionIdManager.java, v 0.1 2011-1-1 ä¸Šåˆ11:49:44 è°ˆç¥¥åº† Exp $
  */
 public interface SessionIdManager extends LifeCycle {
     /**
-     * ´´½¨ĞÂµÄSession ID
+     * åˆ›å»ºæ–°çš„Session ID
      * @param request
      * @param created
      * @return

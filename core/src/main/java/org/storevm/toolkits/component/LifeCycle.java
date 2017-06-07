@@ -4,32 +4,32 @@
 package org.storevm.toolkits.component;
 
 /**
- * ×é¼şÉúÃüÖÜÆÚ½Ó¿Ú¶¨Òå
+ * ç»„ä»¶ç”Ÿå‘½å‘¨æœŸæ¥å£å®šä¹‰
  * 
- * @author Ì¸ÏéÇì
- * @version $Id: LifeCycle.java, v 0.1 2010-12-29 ÏÂÎç08:50:10 Ì¸ÏéÇì Exp $
+ * @author è°ˆç¥¥åº†
+ * @version $Id: LifeCycle.java, v 0.1 2010-12-29 ä¸‹åˆ08:50:10 è°ˆç¥¥åº† Exp $
  */
 public interface LifeCycle {
     /**
-     * ×é¼şÆô¶¯£¬ÓÃÓÚ×é¼şµÄ³õÊ¼»¯
+     * ç»„ä»¶å¯åŠ¨ï¼Œç”¨äºç»„ä»¶çš„åˆå§‹åŒ–
      * @throws Exception
      */
     public void start() throws Exception;
 
     /**
-     * ×é¼şÍ£Ö¹£¬ÓÃÓÚ×é¼şµÄÏú»Ù
+     * ç»„ä»¶åœæ­¢ï¼Œç”¨äºç»„ä»¶çš„é”€æ¯
      * @throws Exception
      */
     public void stop() throws Exception;
 
     /**
-     * ÊÇ·ñÒÑÆô¶¯
+     * æ˜¯å¦å·²å¯åŠ¨
      * @return
      */
     public boolean isStarted();
 
     /**
-     * ÊÇ·ñÒÑÍ£Ö¹
+     * æ˜¯å¦å·²åœæ­¢
      * @return
      */
     public boolean isStopped();

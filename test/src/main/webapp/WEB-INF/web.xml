@@ -23,7 +23,7 @@
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
 	
-	<!-- 分布式Session的过滤器 -->
+	<!-- 鍒嗗竷寮廠ession鐨勮繃婊ゅ櫒 -->
 	<filter>
 		<filter-name>distributedSessionFilter</filter-name>
 		<filter-class>org.storevm.toolkits.session.filter.CatalinaDistributedSessionFilter</filter-class>

@@ -25,10 +25,10 @@ import org.storevm.toolkits.session.zookeeper.handler.RemoveDataHandler;
 import org.storevm.toolkits.session.zookeeper.handler.RemoveNodeHandler;
 
 /**
- * JettyÈİÆ÷ÏÂµÄHttpSession½Ó¿ÚµÄÊµÏÖ
+ * Jettyå®¹å™¨ä¸‹çš„HttpSessionæ¥å£çš„å®ç°
  * 
- * @author Ì¸ÏéÇì
- * @version $Id: JettyDistributedSession.java, v 0.1 2010-12-29 ÏÂÎç10:26:09 Ì¸ÏéÇì Exp $
+ * @author è°ˆç¥¥åº†
+ * @version $Id: JettyDistributedSession.java, v 0.1 2010-12-29 ä¸‹åˆ10:26:09 è°ˆç¥¥åº† Exp $
  */
 public class JettyDistributedSession extends Session {
     private static final long   serialVersionUID = -6089477971984554624L;
@@ -36,14 +36,14 @@ public class JettyDistributedSession extends Session {
     /** log4j */
     private static final Logger LOGGER           = Logger.getLogger(JettyDistributedSession.class);
 
-    /** Session¹ÜÀíÆ÷ */
+    /** Sessionç®¡ç†å™¨ */
     private SessionManager      sessionManager;
 
-    /** ZK¿Í»§¶Ë²Ù×÷ */
+    /** ZKå®¢æˆ·ç«¯æ“ä½œ */
     private ZooKeeperClient     client           = DefaultZooKeeperClient.getInstance();
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * 
      * @param sessionManager
      * @param request
@@ -55,7 +55,7 @@ public class JettyDistributedSession extends Session {
     }
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param arg0
      * @param arg1
      */
@@ -75,14 +75,14 @@ public class JettyDistributedSession extends Session {
      */
     @Override
     public Object getAttribute(String name) {
-        //»ñÈ¡session ID
+        //è·å–session ID
         String id = getId();
         if (StringUtils.isNotBlank(id)) {
-            //·µ»ØSession½ÚµãÏÂµÄÊı¾İ
+            //è¿”å›SessionèŠ‚ç‚¹ä¸‹çš„æ•°æ®
             try {
                 return client.execute(new GetDataHandler(id, name));
             } catch (Exception ex) {
-                LOGGER.error("µ÷ÓÃgetAttribute·½·¨Ê±·¢ÉúÒì³££¬", ex);
+                LOGGER.error("è°ƒç”¨getAttributeæ–¹æ³•æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
             }
         }
         return null;
@@ -94,54 +94,54 @@ public class JettyDistributedSession extends Session {
     @Override
     public void removeAttribute(String name) {
         Object value = null;
-        //»ñÈ¡session ID
+        //è·å–session ID
         String id = getId();
         if (StringUtils.isNotBlank(id)) {
-            //É¾³ıSession½ÚµãÏÂµÄÊı¾İ
+            //åˆ é™¤SessionèŠ‚ç‚¹ä¸‹çš„æ•°æ®
             try {
                 value = client.execute(new RemoveDataHandler(id, name));
             } catch (Exception ex) {
-                LOGGER.error("µ÷ÓÃremoveAttribute·½·¨Ê±·¢ÉúÒì³££¬", ex);
+                LOGGER.error("è°ƒç”¨removeAttributeæ–¹æ³•æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
             }
         }
-        //´¦ÀíSessionµÄ¼àÌıÆ÷
+        //å¤„ç†Sessionçš„ç›‘å¬å™¨
         fireHttpSessionUnbindEvent(name, value);
     }
 
     /**
      * 
-     * @see org.mortbay.jetty.servlet.AbstractSessionManager.Session#setAttribute(java.lang.String, java.lang.Object)
+     * @see Session#setAttribute(String, Object)
      */
     @Override
     public void setAttribute(String name, Object value) {
-        //Ã»ÓĞÊµÏÖĞòÁĞ»¯½Ó¿ÚµÄÖ±½Ó·µ»Ø
+        //æ²¡æœ‰å®ç°åºåˆ—åŒ–æ¥å£çš„ç›´æ¥è¿”å›
         if (!(value instanceof Serializable)) {
-            LOGGER.warn("¶ÔÏó[" + value + "]Ã»ÓĞÊµÏÖSerializable½Ó¿Ú£¬ÎŞ·¨±£´æµ½·Ö²¼Ê½SessionÖĞ");
+            LOGGER.warn("å¯¹è±¡[" + value + "]æ²¡æœ‰å®ç°Serializableæ¥å£ï¼Œæ— æ³•ä¿å­˜åˆ°åˆ†å¸ƒå¼Sessionä¸­");
             return;
         }
-        //»ñÈ¡session ID
+        //è·å–session ID
         String id = getId();
         if (StringUtils.isNotBlank(id)) {
-            //½«Êı¾İÌí¼Óµ½ZooKeeper·şÎñÆ÷ÉÏ
+            //å°†æ•°æ®æ·»åŠ åˆ°ZooKeeperæœåŠ¡å™¨ä¸Š
             try {
                 value = client.execute(new PutDataHandler(id, name, (Serializable) value));
             } catch (Exception ex) {
-                LOGGER.error("µ÷ÓÃsetAttribute·½·¨Ê±·¢ÉúÒì³££¬", ex);
+                LOGGER.error("è°ƒç”¨setAttributeæ–¹æ³•æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
             }
         }
-        //´¦ÀíSessionµÄ¼àÌıÆ÷
+        //å¤„ç†Sessionçš„ç›‘å¬å™¨
         fireHttpSessionBindEvent(name, value);
     }
 
     /** 
-     * @see org.mortbay.jetty.servlet.AbstractSessionManager.Session#invalidate()
+     * @see Session#invalidate()
      */
     @Override
     public void invalidate() throws IllegalStateException {
-        //»ñÈ¡session ID
+        //è·å–session ID
         String id = getId();
         if (StringUtils.isNotBlank(id)) {
-            //É¾³ıSession½Úµã
+            //åˆ é™¤SessionèŠ‚ç‚¹
             try {
                 Map<String, Object> sessionMap = client.execute(new RemoveNodeHandler(id));
                 if (sessionMap != null) {
@@ -152,7 +152,7 @@ public class JettyDistributedSession extends Session {
                     }
                 }
             } catch (Exception ex) {
-                LOGGER.error("µ÷ÓÃinvalidate·½·¨Ê±·¢ÉúÒì³££¬", ex);
+                LOGGER.error("è°ƒç”¨invalidateæ–¹æ³•æ—¶å‘ç”Ÿå¼‚å¸¸ï¼Œ", ex);
             }
         }
         if (sessionManager != null) {
@@ -161,11 +161,11 @@ public class JettyDistributedSession extends Session {
     }
 
     /**
-     * ´¥·¢SessionµÄÊÂ¼ş
+     * è§¦å‘Sessionçš„äº‹ä»¶
      * @param value
      */
     protected void fireHttpSessionBindEvent(String name, Object value) {
-        //´¦ÀíSessionµÄ¼àÌıÆ÷
+        //å¤„ç†Sessionçš„ç›‘å¬å™¨
         if (value != null && value instanceof HttpSessionBindingListener) {
             HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, name, value);
             ((HttpSessionBindingListener) value).valueBound(event);
@@ -173,11 +173,11 @@ public class JettyDistributedSession extends Session {
     }
 
     /**
-     * ´¥·¢SessionµÄÊÂ¼ş
+     * è§¦å‘Sessionçš„äº‹ä»¶
      * @param value
      */
     protected void fireHttpSessionUnbindEvent(String name, Object value) {
-        //´¦ÀíSessionµÄ¼àÌıÆ÷
+        //å¤„ç†Sessionçš„ç›‘å¬å™¨
         if (value != null && value instanceof HttpSessionBindingListener) {
             HttpSessionBindingEvent event = new HttpSessionBindingEvent(this, name, value);
             ((HttpSessionBindingListener) value).valueUnbound(event);

@@ -13,18 +13,18 @@ import org.storevm.toolkits.session.config.Configuration;
 import org.storevm.toolkits.session.helper.ConnectionWatcher;
 
 /**
- * ZookeeperÊµÀı¶ÔÏó³Ø£¬ÓÉÓÚÒ»¸öZookeeperÊµÀı³ÖÓĞÒ»¸öSocketÁ¬½Ó£¬ËùÒÔ½«ZookeeperÊµÀı³Ø»¯±ÜÃâÊµÀı»¯¹ı³ÌÖĞµÄÏûºÄ
+ * Zookeeperå®ä¾‹å¯¹è±¡æ± ï¼Œç”±äºä¸€ä¸ªZookeeperå®ä¾‹æŒæœ‰ä¸€ä¸ªSocketè¿æ¥ï¼Œæ‰€ä»¥å°†Zookeeperå®ä¾‹æ± åŒ–é¿å…å®ä¾‹åŒ–è¿‡ç¨‹ä¸­çš„æ¶ˆè€—
  * @author hzxiongwenwu.tan
- * @version $Id: ZookeeperPoolableObjectFactory.java, v 0.1 2012-4-1 ÏÂÎç03:52:05 hzxiongwenwu.tan Exp $
+ * @version $Id: ZookeeperPoolableObjectFactory.java, v 0.1 2012-4-1 ä¸‹åˆ03:52:05 hzxiongwenwu.tan Exp $
  */
 public class ZookeeperPoolableObjectFactory implements PoolableObjectFactory<ZooKeeper> {
     private static final Logger LOGGER = Logger.getLogger(ZookeeperPoolableObjectFactory.class);
 
-    /** ÅäÖÃĞÅÏ¢¶ÔÏó */
+    /** é…ç½®ä¿¡æ¯å¯¹è±¡ */
     private Configuration       config;
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      * @param config
      */
     public ZookeeperPoolableObjectFactory(Configuration config) {
@@ -33,19 +33,19 @@ public class ZookeeperPoolableObjectFactory implements PoolableObjectFactory<Zoo
 
     @Override
     public ZooKeeper makeObject() throws Exception {
-        //·µ»ØÒ»¸öĞÂµÄzkÊµÀı
+        //è¿”å›ä¸€ä¸ªæ–°çš„zkå®ä¾‹
         ConnectionWatcher cw = new ConnectionWatcher();
 
-        //Á¬½Ó·şÎñ¶Ë
+        //è¿æ¥æœåŠ¡ç«¯
         String servers = config.getString(Configuration.SERVERS);
         int timeout = NumberUtils.toInt(config.getString(Configuration.TIMEOUT));
         ZooKeeper zk = cw.connection(servers, timeout);
         if (zk != null) {
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("ÊµÀı»¯ZK¿Í»§¶Ë¶ÔÏó£¬zk.sessionId=" + zk.getSessionId());
+                LOGGER.info("å®ä¾‹åŒ–ZKå®¢æˆ·ç«¯å¯¹è±¡ï¼Œzk.sessionId=" + zk.getSessionId());
             }
         } else {
-            LOGGER.warn("ÊµÀı»¯ZK¿Í»§¶Ë¶ÔÏóÊ§°Ü");
+            LOGGER.warn("å®ä¾‹åŒ–ZKå®¢æˆ·ç«¯å¯¹è±¡å¤±è´¥");
         }
         return zk;
     }
@@ -55,7 +55,7 @@ public class ZookeeperPoolableObjectFactory implements PoolableObjectFactory<Zoo
         if (obj != null) {
             obj.close();
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("ZK¿Í»§¶Ë¶ÔÏó±»¹Ø±Õ£¬zk.sessionId=" + obj.getSessionId());
+                LOGGER.info("ZKå®¢æˆ·ç«¯å¯¹è±¡è¢«å…³é—­ï¼Œzk.sessionId=" + obj.getSessionId());
             }
         }
     }
@@ -64,12 +64,12 @@ public class ZookeeperPoolableObjectFactory implements PoolableObjectFactory<Zoo
     public boolean validateObject(ZooKeeper obj) {
         if (obj != null && obj.getState() == States.CONNECTED) {
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("ZK¿Í»§¶Ë¶ÔÏóÑéÖ¤Í¨¹ı£¬zk.sessionId=" + obj.getSessionId());
+                LOGGER.info("ZKå®¢æˆ·ç«¯å¯¹è±¡éªŒè¯é€šè¿‡ï¼Œzk.sessionId=" + obj.getSessionId());
             }
             return true;
         }
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("ZK¿Í»§¶Ë¶ÔÏóÑéÖ¤²»Í¨¹ı£¬zk.sessionId=" + obj.getSessionId());
+            LOGGER.info("ZKå®¢æˆ·ç«¯å¯¹è±¡éªŒè¯ä¸é€šè¿‡ï¼Œzk.sessionId=" + obj.getSessionId());
         }
         return false;
     }

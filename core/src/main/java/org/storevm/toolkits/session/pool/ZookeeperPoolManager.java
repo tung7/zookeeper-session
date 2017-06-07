@@ -15,26 +15,26 @@ import org.apache.zookeeper.ZooKeeper;
 import org.storevm.toolkits.session.config.Configuration;
 
 /**
- * ZKÊµÀı³Ø¹ÜÀíÆ÷
+ * ZKå®ä¾‹æ± ç®¡ç†å™¨
  * @author hzxiongwenwu.tan
- * @version $Id: ZookeeperPoolManager.java, v 0.1 2012-4-1 ÏÂÎç05:17:07 hzxiongwenwu.tan Exp $
+ * @version $Id: ZookeeperPoolManager.java, v 0.1 2012-4-1 ä¸‹åˆ05:17:07 hzxiongwenwu.tan Exp $
  */
 public class ZookeeperPoolManager {
     private static final Logger           LOGGER = Logger.getLogger(ZookeeperPoolManager.class);
 
-    /** µ¥Àı */
+    /** å•ä¾‹ */
     protected static ZookeeperPoolManager instance;
 
     private ObjectPool<ZooKeeper>         pool;
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      */
     protected ZookeeperPoolManager() {
     }
 
     /**
-     * ·µ»Øµ¥ÀıµÄ¶ÔÏó
+     * è¿”å›å•ä¾‹çš„å¯¹è±¡
      * 
      * @return
      */
@@ -46,34 +46,34 @@ public class ZookeeperPoolManager {
     }
 
     /**
-     * ³õÊ¼»¯·½·¨
+     * åˆå§‹åŒ–æ–¹æ³•
      * 
      * @param config
      */
     public void init(Configuration config) {
         PoolableObjectFactory<ZooKeeper> factory = new ZookeeperPoolableObjectFactory(config);
 
-        //³õÊ¼»¯ZK¶ÔÏó³Ø
+        //åˆå§‹åŒ–ZKå¯¹è±¡æ± 
         int maxIdle = NumberUtils.toInt(config.getString(Configuration.MAX_IDLE));
         int initIdleCapacity = NumberUtils
             .toInt(config.getString(Configuration.INIT_IDLE_CAPACITY));
         pool = new StackObjectPool<ZooKeeper>(factory, maxIdle, initIdleCapacity);
-        //³õÊ¼»¯³Ø
+        //åˆå§‹åŒ–æ± 
         for (int i = 0; i < initIdleCapacity; i++) {
             try {
                 pool.addObject();
             } catch (IllegalStateException ex) {
-                LOGGER.error("³õÊ¼»¯³Ø·¢ÉúÒì³£¡£", ex);
+                LOGGER.error("åˆå§‹åŒ–æ± å‘ç”Ÿå¼‚å¸¸ã€‚", ex);
             } catch (UnsupportedOperationException ex) {
-                LOGGER.error("³õÊ¼»¯³Ø·¢ÉúÒì³£¡£", ex);
+                LOGGER.error("åˆå§‹åŒ–æ± å‘ç”Ÿå¼‚å¸¸ã€‚", ex);
             } catch (Exception ex) {
-                LOGGER.error("³õÊ¼»¯³Ø·¢ÉúÒì³£¡£", ex);
+                LOGGER.error("åˆå§‹åŒ–æ± å‘ç”Ÿå¼‚å¸¸ã€‚", ex);
             }
         }
     }
 
     /**
-     * ½«ZK¶ÔÏó´Ó¶ÔÏó³ØÖĞÈ¡³ö
+     * å°†ZKå¯¹è±¡ä»å¯¹è±¡æ± ä¸­å–å‡º
      * 
      * @return
      */
@@ -82,22 +82,22 @@ public class ZookeeperPoolManager {
             try {
                 ZooKeeper zk = pool.borrowObject();
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("´ÓZK¶ÔÏó³ØÖĞ·µ»ØÊµÀı£¬zk.sessionId=" + zk.getSessionId());
+                    LOGGER.info("ä»ZKå¯¹è±¡æ± ä¸­è¿”å›å®ä¾‹ï¼Œzk.sessionId=" + zk.getSessionId());
                 }
                 return zk;
             } catch (NoSuchElementException ex) {
-                LOGGER.error("³ö½èZK³Ø»¯ÊµÀıÊ±·¢ÉúÒì³££º", ex);
+                LOGGER.error("å‡ºå€ŸZKæ± åŒ–å®ä¾‹æ—¶å‘ç”Ÿå¼‚å¸¸ï¼š", ex);
             } catch (IllegalStateException ex) {
-                LOGGER.error("³ö½èZK³Ø»¯ÊµÀıÊ±·¢ÉúÒì³££º", ex);
+                LOGGER.error("å‡ºå€ŸZKæ± åŒ–å®ä¾‹æ—¶å‘ç”Ÿå¼‚å¸¸ï¼š", ex);
             } catch (Exception e) {
-                LOGGER.error("³ö½èZK³Ø»¯ÊµÀıÊ±·¢ÉúÒì³££º", e);
+                LOGGER.error("å‡ºå€ŸZKæ± åŒ–å®ä¾‹æ—¶å‘ç”Ÿå¼‚å¸¸ï¼š", e);
             }
         }
         return null;
     }
 
     /**
-     * ½«ZKÊµÀı·µ»Ø¶ÔÏó³Ø
+     * å°†ZKå®ä¾‹è¿”å›å¯¹è±¡æ± 
      * 
      * @param zk
      */
@@ -106,26 +106,26 @@ public class ZookeeperPoolManager {
             try {
                 pool.returnObject(zk);
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("½«ZKÊµÀı·µ»Ø¶ÔÏó³ØÖĞ£¬zk.sessionId=" + zk.getSessionId());
+                    LOGGER.info("å°†ZKå®ä¾‹è¿”å›å¯¹è±¡æ± ä¸­ï¼Œzk.sessionId=" + zk.getSessionId());
                 }
             } catch (Exception ex) {
-                LOGGER.error("·µ»ØZK³Ø»¯ÊµÀıÊ±·¢ÉúÒì³££º", ex);
+                LOGGER.error("è¿”å›ZKæ± åŒ–å®ä¾‹æ—¶å‘ç”Ÿå¼‚å¸¸ï¼š", ex);
             }
         }
     }
 
     /**
-     * ¹Ø±Õ¶ÔÏó³Ø
+     * å…³é—­å¯¹è±¡æ± 
      */
     public void close() {
         if (pool != null) {
             try {
                 pool.close();
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("¹Ø±ÕZK¶ÔÏó³ØÍê³É");
+                    LOGGER.info("å…³é—­ZKå¯¹è±¡æ± å®Œæˆ");
                 }
             } catch (Exception ex) {
-                LOGGER.error("¹Ø±ÕZK¶ÔÏó³ØÊ±·¢ÉúÒì³££º", ex);
+                LOGGER.error("å…³é—­ZKå¯¹è±¡æ± æ—¶å‘ç”Ÿå¼‚å¸¸ï¼š", ex);
             }
         }
     }

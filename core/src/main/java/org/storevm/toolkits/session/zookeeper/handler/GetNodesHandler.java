@@ -13,9 +13,9 @@ import org.storevm.toolkits.session.metadata.SessionMetaData;
 import org.storevm.toolkits.utils.SerializationUtils;
 
 /**
- * ·µ»ØËùÓĞ½ÚµãMapµÄ´¦ÀíÆ÷
+ * è¿”å›æ‰€æœ‰èŠ‚ç‚¹Mapçš„å¤„ç†å™¨
  * @author hzxiongwenwu.tan
- * @version $Id: GetNodesHandler.java, v 0.1 2012-4-9 ÉÏÎç10:52:37 hzxiongwenwu.tan Exp $
+ * @version $Id: GetNodesHandler.java, v 0.1 2012-4-9 ä¸Šåˆ10:52:37 hzxiongwenwu.tan Exp $
  */
 public class GetNodesHandler extends GetMetadataHandler {
 
@@ -35,21 +35,21 @@ public class GetNodesHandler extends GetMetadataHandler {
         if (zookeeper != null) {
             String path = GROUP_NAME + NODE_SEP + id;
 
-            //»ñÈ¡ÔªÊı¾İ
+            //è·å–å…ƒæ•°æ®
             SessionMetaData metadata = super.handle();
-            //Èç¹û²»´æÔÚ»òÊÇÎŞĞ§£¬ÔòÖ±½Ó·µ»Ønull
+            //å¦‚æœä¸å­˜åœ¨æˆ–æ˜¯æ— æ•ˆï¼Œåˆ™ç›´æ¥è¿”å›null
             if (metadata == null || !metadata.getValidate()) {
                 return null;
             }
-            //»ñÈ¡ËùÓĞ×Ó½Úµã
+            //è·å–æ‰€æœ‰å­èŠ‚ç‚¹
             List<String> nodes = zookeeper.getChildren(path, false);
-            //´æ·ÅÊı¾İ
+            //å­˜æ”¾æ•°æ®
             for (String node : nodes) {
                 String dataPath = path + NODE_SEP + node;
                 Stat stat = zookeeper.exists(dataPath, false);
-                //½Úµã´æÔÚ
+                //èŠ‚ç‚¹å­˜åœ¨
                 if (stat != null) {
-                    //ÌáÈ¡Êı¾İ
+                    //æå–æ•°æ®
                     byte[] data = zookeeper.getData(dataPath, false, null);
                     if (data != null) {
                         nodeMap.put(node, SerializationUtils.deserialize(data));

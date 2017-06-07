@@ -8,31 +8,31 @@ import org.apache.log4j.Logger;
 import org.apache.zookeeper.ZooKeeper;
 
 /**
- * ³éÏóÊµÏÖ
+ * æŠ½è±¡å®ç°
  * @author Administrator
- * @version $Id: AbstractZookeeperExecute.java, v 0.1 2012-4-8 ÏÂÎç6:16:01 Administrator Exp $
+ * @version $Id: AbstractZookeeperExecute.java, v 0.1 2012-4-8 ä¸‹åˆ6:16:01 Administrator Exp $
  */
 public abstract class AbstractZookeeperHandler implements ZookeeperHandler {
-    /** ÈÕÖ¾ */
+    /** æ—¥å¿— */
     protected static final Logger LOGGER = Logger.getLogger(ZookeeperHandler.class);
 
-    /** ZK¿Í»§¶Ë */
+    /** ZKå®¢æˆ·ç«¯ */
     protected ZooKeeper           zookeeper;
 
     /**
-     * ½ÚµãID
+     * èŠ‚ç‚¹ID
      */
     protected String              id;
 
     /**
-     * ¹¹Ôì·½·¨
+     * æ„é€ æ–¹æ³•
      */
     public AbstractZookeeperHandler(String id) {
         this.id = id;
     }
 
     /** 
-     * @see org.storevm.toolkits.session.zookeeper.ZookeeperHandler#setZooKeeper(org.apache.zookeeper.ZooKeeper)
+     * @see ZookeeperHandler#setZooKeeper(ZooKeeper)
      */
     @Override
     public void setZooKeeper(ZooKeeper zookeeper) {
