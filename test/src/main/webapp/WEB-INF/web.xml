@@ -22,11 +22,11 @@
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
-	
-	<!-- 鍒嗗竷寮廠ession鐨勮繃婊ゅ櫒 -->
+
+	<!-- 分布式Session的过滤器 -->
 	<filter>
 		<filter-name>distributedSessionFilter</filter-name>
-		<filter-class>org.storevm.toolkits.session.filter.CatalinaDistributedSessionFilter</filter-class>
+		<filter-class>org.coracle.xsimple.apigw.zksession.session.filter.CatalinaDistributedSessionFilter</filter-class>
 	</filter>
 	
 	<filter-mapping>
@@ -36,7 +36,7 @@
 	
 	<servlet>
 		<servlet-name>simple</servlet-name>
-		<servlet-class>org.storevm.web.servlet.SimpleServlet</servlet-class>
+		<servlet-class>org.coracle.xsimple.web.servlet.SimpleServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>simple</servlet-name>
